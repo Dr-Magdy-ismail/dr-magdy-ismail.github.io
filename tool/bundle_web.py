@@ -40,9 +40,16 @@ html = html.replace("logo.png", img)
 
 # توكن الخدمة (نفس APP_TOKEN بتاع دوايا) — بييجي من GitHub Secrets، مش محفوظ في الكود
 token = os.environ.get("APP_TOKEN", "").strip()
+# لو اتنسخ معاه حاجة زيادة (علامات ' أو " أو ; أو السطر كله appToken = '...') نطلّع التوكن نفسه
+m = re.search(r"""['"]([^'"]+)['"]""", token)
+if m:
+    token = m.group(1)
+token = token.strip().strip(";,").strip()
 if token:
     if not re.fullmatch(r"[A-Za-z0-9_\-.]+", token):
-        fail("APP_TOKEN has unexpected characters")
+        print("::warning::APP_TOKEN has unexpected characters — building without it (prescription reading off)")
+        token = ""
+if token:
     html, n = re.subn(r'token:\s*""', 'token: "' + token + '"', html, count=1)
     if n != 1:
         fail("CLINIC.token placeholder not found")
