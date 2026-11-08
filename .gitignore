@@ -1,5 +1,5 @@
 # بيتعمل أوتوماتيك في GitHub Actions
-android/
+/android/
 assets/app/
 build/
 .dart_tool/
