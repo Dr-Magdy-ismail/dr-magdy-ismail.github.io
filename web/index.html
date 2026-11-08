@@ -954,17 +954,22 @@ async function makeReport(){
     const scale=2, canvas=await html2canvas(el,{scale,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:794});
     // تقسيم الصفحات من غير ما نقطع سطر في النص
     const pageH=Math.floor(canvas.width*297/210), top0=el.getBoundingClientRect().top;
-    const cuts=[...el.querySelectorAll(".blk,tr,h2,.qs,.foot")].map(n=>Math.round((n.getBoundingClientRect().top-top0)*scale)).sort((a,b)=>a-b);
+    const topOf=n=>Math.round((n.getBoundingClientRect().top-top0)*scale);
+    const blkCuts=[...el.querySelectorAll(".blk,.foot")].map(topOf).sort((a,b)=>a-b);   // أول قسم كامل
+    const cuts=[...el.querySelectorAll(".blk,tr,h2,.qs,.foot")].map(topOf).sort((a,b)=>a-b);
     const {jsPDF}=window.jspdf, pdf=new jsPDF({unit:"mm",format:"a4",orientation:"p"});
     let y=0, page=0;
+    const topMm=12, topPx=Math.round(canvas.width*topMm/210);   // هامش فوق في الصفحات بعد الأولى
     while(y<canvas.height-4){
-      let end=y+pageH;
-      if(end<canvas.height){ const c=cuts.filter(v=>v>y+pageH*0.4 && v<=end).pop(); if(c) end=c; }
+      const room = page ? pageH-topPx : pageH;
+      let end=y+room;
+      // نقطع قبل قسم كامل لو ينفع (من غير ما نسيب أكتر من 35% فاضي)، وإلا بين سطرين
+      if(end<canvas.height){ const c=blkCuts.filter(v=>v>y+room*0.65 && v<=end).pop() || cuts.filter(v=>v>y+room*0.4 && v<=end).pop(); if(c) end=c; }
       end=Math.min(end,canvas.height);
       const part=document.createElement("canvas"); part.width=canvas.width; part.height=end-y;
       const g=part.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,part.width,part.height); g.drawImage(canvas,0,-y);
       if(page) pdf.addPage();
-      pdf.addImage(part.toDataURL("image/jpeg",0.92),"JPEG",0,0,210,(end-y)*210/canvas.width);
+      pdf.addImage(part.toDataURL("image/jpeg",0.92),"JPEG",0,page?topMm:0,210,(end-y)*210/canvas.width);
       y=end; page++;
     }
     if(page>1) for(let i=1;i<=page;i++){ pdf.setPage(i); pdf.setFontSize(9); pdf.setTextColor(150); pdf.text(i+" / "+page,105,292,{align:"center"}); }
