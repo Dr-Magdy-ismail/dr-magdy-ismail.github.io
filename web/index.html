@@ -203,14 +203,7 @@ details.qa p{margin:6px 0}
 
     <div class="alert">
       <b>🚨 كلّمي العيادة أو روحي الطوارئ فورًا لو حصل:</b>
-      <ul style="margin:6px 0 0;padding-inline-start:20px">
-        <li>نزيف من المهبل</li>
-        <li>نزول مية أو سوائل</li>
-        <li>ألم شديد في البطن أو مغص مستمر</li>
-        <li>صداع شديد، زغللة، أو تورم مفاجئ في الوش والإيدين</li>
-        <li>قلة أو توقف حركة الجنين (بعد الأسبوع 28)</li>
-        <li>سخونية عالية أو ترجيع مستمر</li>
-      </ul>
+      <ul id="dangerList" style="margin:6px 0 0;padding-inline-start:20px"></ul>
       <div class="row" style="margin-top:10px">
         <a class="btn btn-warn" id="emCall">📞 اتصال بالعيادة</a>
       </div>
@@ -359,9 +352,7 @@ details.qa p{margin:6px 0}
     <h2>📝 طلب حجز</h2>
     <p class="muted">هتتبعت رسالة واتساب للعيادة فيها بياناتك وعمر الحمل.</p>
     <label>سبب الزيارة</label>
-    <select id="bkReason">
-      <option>متابعة حمل</option><option>سونار</option><option>عرض تحاليل</option><option>استشارة</option><option>كشف بعد الولادة</option>
-    </select>
+    <select id="bkReason"></select>
     <label>اليوم المناسب</label>
     <input type="date" id="bkDate">
     <label>ملاحظة (اختياري)</label>
@@ -394,14 +385,7 @@ details.qa p{margin:6px 0}
 <!-- نافذة دواء -->
 <div class="modal" id="medModal"><div class="sheet">
   <h2 id="medTitle">إضافة دواء</h2>
-  <div>
-    <span class="chip" onclick="qm('حمض الفوليك')">حمض الفوليك</span>
-    <span class="chip" onclick="qm('حديد')">حديد</span>
-    <span class="chip" onclick="qm('كالسيوم')">كالسيوم</span>
-    <span class="chip" onclick="qm('أوميجا 3')">أوميجا 3</span>
-    <span class="chip" onclick="qm('فيتامين د')">فيتامين د</span>
-    <span class="chip" onclick="qm('مثبت حمل')">مثبت حمل</span>
-  </div>
+  <div id="quickMeds"></div>
   <label>اسم الدواء</label>
   <input id="mName">
   <label>الجرعة / طريقة الاستخدام (زي ما في الروشتة)</label>
@@ -422,7 +406,7 @@ details.qa p{margin:6px 0}
   <h2>إضافة موعد</h2>
   <label>نوع الموعد</label>
   <input id="aTitle" list="apptTypes" placeholder="متابعة / سونار / تحاليل">
-  <datalist id="apptTypes"><option>متابعة مع د. مجدي</option><option>سونار</option><option>تحاليل</option><option>منحنى السكر</option></datalist>
+  <datalist id="apptTypes"></datalist>
   <label>التاريخ</label><input type="date" id="aDate">
   <label>الساعة</label><input type="time" id="aTime" value="18:00">
   <label>ملاحظة</label><input id="aNote">
@@ -516,15 +500,28 @@ function noteHtml(n){ return String(n||"").split(" • ").map(x=>"<bdi>"+esc(x)+
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function today0(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
 
-/* ---------- بيانات العيادة في الواجهة ---------- */
-$("drName").textContent = CLINIC.doctor;
-$("drTitle").textContent = CLINIC.title;
-$("clAddr").textContent = CLINIC.address ? "📍 " + CLINIC.address : "";
-$("clHours").textContent = CLINIC.hours;
-if(!CLINIC.address) $("clAddr").style.display="none";
-$("clCall").href = $("emCall").href = "tel:" + CLINIC.phone;
-$("clWa").href = "https://wa.me/" + CLINIC.whatsapp;
-if(CLINIC.map) $("clMap").href = CLINIC.map; else $("clMap").style.display="none";
+/* ---------- بيانات العيادة والقوائم في الواجهة (بتتحدّث من ملفات جوجل) ---------- */
+let DANGER_SIGNS=["نزيف من المهبل","نزول مية أو سوائل","ألم شديد في البطن أو مغص مستمر","صداع شديد، زغللة، أو تورم مفاجئ في الوش والإيدين","قلة أو توقف حركة الجنين (بعد الأسبوع 28)","سخونية عالية أو ترجيع مستمر"];
+let QUICK=["حمض الفوليك","حديد","كالسيوم","أوميجا 3","فيتامين د","مثبت حمل"];
+let REASONS=["متابعة حمل","سونار","عرض تحاليل","استشارة","كشف بعد الولادة"];
+let APPT_TYPES=["متابعة مع د. مجدي","سونار","تحاليل","منحنى السكر"];
+function applyClinicUI(){
+  $("drName").textContent = CLINIC.doctor;
+  $("drTitle").textContent = CLINIC.title;
+  $("clAddr").textContent = CLINIC.address ? "📍 " + CLINIC.address : "";
+  $("clAddr").style.display = CLINIC.address ? "" : "none";
+  $("clHours").textContent = CLINIC.hours;
+  $("clCall").href = $("emCall").href = "tel:" + CLINIC.phone;
+  $("clWa").href = "https://wa.me/" + CLINIC.whatsapp;
+  if(CLINIC.map){ $("clMap").href = CLINIC.map; $("clMap").style.display=""; } else $("clMap").style.display="none";
+  $("dangerList").innerHTML = DANGER_SIGNS.map(x=>"<li>"+esc(x)+"</li>").join("");
+  $("quickMeds").innerHTML = QUICK.map(x=>'<span class="chip" data-q="'+esc(x)+'">'+esc(x)+'</span>').join("");
+  const r=$("bkReason").value; $("bkReason").innerHTML = REASONS.map(x=>"<option>"+esc(x)+"</option>").join(""); if(REASONS.includes(r)) $("bkReason").value=r;
+  $("apptTypes").innerHTML = APPT_TYPES.map(x=>"<option>"+esc(x)+"</option>").join("");
+}
+$("planList").onclick = e => { const b=e.target.closest("button[data-act]"); if(!b) return;
+  if(b.dataset.act==="reg") openAppt(b.dataset.t, b.dataset.d); else { go("clinic"); $("bkDate").value=b.dataset.d; } };
+$("quickMeds").onclick = e => { const c=e.target.closest(".chip"); if(c) qm(c.dataset.q); };
 
 /* ---------- التنقل ---------- */
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.t));
@@ -536,8 +533,8 @@ function go(t){
 }
 
 /* ---------- الحمل ---------- */
-const SIZES = {4:["🌱","بذرة صغيرة"],5:["🌱","بذرة سمسم"],6:["🫘","حباية عدس"],7:["🫐","توتة"],8:["🫘","حباية فول"],9:["🍇","حباية عنب"],10:["🌰","بلحة"],11:["🍈","تينة"],12:["🍋","ليمونة"],13:["🍋","ليمونة كبيرة"],14:["🍑","خوخة"],15:["🍎","تفاحة"],16:["🥑","أفوكادو"],17:["🍐","كمترى"],18:["🫑","فلفل رومي"],19:["🍅","طماطماية"],20:["🍌","موزة"],21:["🥕","جزرة"],22:["🥭","مانجاية"],23:["🥭","مانجاية كبيرة"],24:["🌽","كوز درة"],25:["🥦","قرنبيط صغير"],26:["🥬","خسة"],27:["🥦","قرنبيط"],28:["🍆","باذنجانة"],29:["🎃","قرعة صغيرة"],30:["🥬","كرنبة"],31:["🥥","جوز هند"],32:["🍠","قرعاية"],33:["🍍","أناناس"],34:["🍈","كانتلوب"],35:["🍈","شمامة"],36:["🥬","خسة كبيرة"],37:["🍉","بطيخة صغيرة"],38:["🍉","بطيخة صغيرة"],39:["🍉","بطيخة"],40:["🍉","بطيخة"]};
-const TIPS = [
+let SIZES = {4:["🌱","بذرة صغيرة"],5:["🌱","بذرة سمسم"],6:["🫘","حباية عدس"],7:["🫐","توتة"],8:["🫘","حباية فول"],9:["🍇","حباية عنب"],10:["🌰","بلحة"],11:["🍈","تينة"],12:["🍋","ليمونة"],13:["🍋","ليمونة كبيرة"],14:["🍑","خوخة"],15:["🍎","تفاحة"],16:["🥑","أفوكادو"],17:["🍐","كمترى"],18:["🫑","فلفل رومي"],19:["🍅","طماطماية"],20:["🍌","موزة"],21:["🥕","جزرة"],22:["🥭","مانجاية"],23:["🥭","مانجاية كبيرة"],24:["🌽","كوز درة"],25:["🥦","قرنبيط صغير"],26:["🥬","خسة"],27:["🥦","قرنبيط"],28:["🍆","باذنجانة"],29:["🎃","قرعة صغيرة"],30:["🥬","كرنبة"],31:["🥥","جوز هند"],32:["🍠","قرعاية"],33:["🍍","أناناس"],34:["🍈","كانتلوب"],35:["🍈","شمامة"],36:["🥬","خسة كبيرة"],37:["🍉","بطيخة صغيرة"],38:["🍉","بطيخة صغيرة"],39:["🍉","بطيخة"],40:["🍉","بطيخة"]};
+let TIPS = [
   {to:12, t:["خدي حمض الفوليك بانتظام حسب تعليمات الدكتور.","الغثيان: وجبات صغيرة كل كام ساعة، ونشويات ناشفة الصبح.","ما تاخديش أي دوا أو مسكن من غير ما تسألي الدكتور.","أول زيارة وتحاليل الحمل الأولية مهمة جدًا.","اشربي مية كتير وابعدي عن التدخين والمدخنين."]},
   {to:20, t:["سونار الأسبوع 12 وسونار التشوهات (18–22) من أهم مواعيدك.","ممكن تبدأي تحسي حركة البيبي ما بين الأسبوع 18 و22.","الحديد والكالسيوم: ما تاخديهمش مع بعض في نفس الوقت إلا لو الدكتور قال.","مشي خفيف يوميًا مفيد لو الدكتور موافق."]},
   {to:27, t:["تحليل السكر (منحنى السكر) غالبًا بين الأسبوع 24 و28.","قللي السكريات والملح، وكُلي خضار وبروتين.","لو فصيلتك سالبة اسألي الدكتور عن حقنة Anti-D.","نامي على جنبك الشمال ورجليكي مرفوعة شوية لو فيه تورم."]},
@@ -613,9 +610,11 @@ function saveAppt(){
   save(); closeM("apptModal"); render(); toast("الموعد اتسجل ✓");
 }
 function delAppt(id){ if(confirmDel(id)){ S.appts=S.appts.filter(x=>x.id!==id); save(); render(); } }
+let PLAN=[[9,"الزيارة الأولى + تحاليل الحمل الأولية"],[12,"سونار الأسبوع 12 (الشفافية القفوية)"],[16,"متابعة"],[20,"سونار التشوهات التفصيلي"],[26,"منحنى السكر + صورة دم"],[28,"متابعة"],[32,"متابعة + سونار نمو"],[34,"متابعة"],[36,"متابعة + تحديد خطة الولادة"],[37,"متابعة أسبوعية"],[38,"متابعة أسبوعية"],[39,"متابعة أسبوعية"],[40,"متابعة — موعد الولادة المتوقع"]];
 function plan(p){
-  const L=[[9,"الزيارة الأولى + تحاليل الحمل الأولية"],[12,"سونار الأسبوع 12 (الشفافية القفوية)"],[16,"متابعة"],[20,"سونار التشوهات التفصيلي"],[26,"منحنى السكر + صورة دم"],[28,"متابعة"+(S.profile.rh==="neg"?" + حقنة Anti-D (فصيلة سالبة)":"")],[32,"متابعة + سونار نمو"],[34,"متابعة"],[36,"متابعة + تحديد خطة الولادة"],[37,"متابعة أسبوعية"],[38,"متابعة أسبوعية"],[39,"متابعة أسبوعية"],[40,"متابعة — موعد الولادة المتوقع"]];
-  return L.map(([w,t])=>({w,t,date:new Date(p.lmp.getTime()+w*7*DAY)}));
+  // حقنة Anti-D للفصيلة السالبة بتتضاف تلقائي على زيارة الأسبوع 28 (أو أقرب زيارة بعده)
+  const neg=S.profile.rh==="neg", antiAt=(PLAN.find(([w])=>w>=28)||[])[0];
+  return PLAN.map(([w,t])=>({w,t:t+(neg&&w===antiAt&&!/anti-d/i.test(t)?" + حقنة Anti-D (فصيلة سالبة)":""),date:new Date(p.lmp.getTime()+w*7*DAY)}));
 }
 
 /* ---------- عداد الحركة ---------- */
@@ -661,8 +660,10 @@ function renderCt(){
 }
 
 /* ---------- شنطة الولادة ---------- */
-const BAG=["البطاقة وكارنيه/ملف المتابعة","التحاليل والسونارات","هدوم مريحة بزراير من قدام","فوط صحية للولادة","لبس البيبي (2–3 طقم) وبطانية","حفاضات ومناديل مبللة","شاحن الموبايل","حاجات شخصية (فرشة، صابون، فوطة)","سنتيان رضاعة","حاجة خفيفة تتاكل ومية"];
-function renderBag(){ $("bagList").innerHTML=BAG.map((b,i)=>'<div class="dose'+(S.bag[i]?" done":"")+'"><span class="t">'+b+'</span><button class="tick" onclick="S.bag['+i+']=!S.bag['+i+'];save();renderBag()">✓</button></div>').join(""); }
+let BAG=["البطاقة وكارنيه/ملف المتابعة","التحاليل والسونارات","هدوم مريحة بزراير من قدام","فوط صحية للولادة","لبس البيبي (2–3 طقم) وبطانية","حفاضات ومناديل مبللة","شاحن الموبايل","حاجات شخصية (فرشة، صابون، فوطة)","سنتيان رضاعة","حاجة خفيفة تتاكل ومية"];
+// العلامة بتتحفظ باسم الحاجة نفسها، علشان لو القايمة اتغيّرت من ملف جوجل ما تتلخبطش
+function renderBag(){ $("bagList").innerHTML=BAG.map((b,i)=>'<div class="dose'+(S.bag[b]?" done":"")+'"><span class="t">'+esc(b)+'</span><button class="tick" data-i="'+i+'">✓</button></div>').join(""); }
+$("bagList").onclick = e => { const t=e.target.closest(".tick"); if(!t) return; const b=BAG[+t.dataset.i]; if(b===undefined) return; S.bag[b]=!S.bag[b]; save(); renderBag(); };
 
 /* ---------- الحجز ---------- */
 function sendBooking(){
@@ -968,7 +969,7 @@ function downloadAndWa(file){
    💬 بوت «اسألي د. مجدي»
    الإجابات دايمًا من faq.js — الخدمة (لو موجودة) بتختار رقم السؤال بس.
    ========================================================= */
-const FAQS=window.FAQ||[], CATS=window.FAQ_CATS||[];
+let FAQS=window.FAQ||[], CATS=window.FAQ_CATS||[];
 function fill(a){
   return String(a).replace(/\{(doctor|phone|whatsapp|address|hours|title)\}/g,(_,k)=>!CLINIC[k]?"":k==="address"?"📍 "+CLINIC.address:CLINIC[k])
     .split("\n").map(x=>x.trim()).filter(Boolean).join("\n");
@@ -987,9 +988,13 @@ function variants(w){
   return [...v];
 }
 function toks(s){ return norm(s).split(" ").filter(w=>w.length>=2&&!STOP.has(w)); }
-const IDX=FAQS.map(f=>{ const kw=new Set(), qw=new Set(); toks(f.k).forEach(w=>variants(w).forEach(x=>kw.add(x))); toks(f.q).forEach(w=>variants(w).forEach(x=>qw.add(x))); return {f,kw,qw,all:[...kw,...qw]}; });
+let IDX=[], DF={};
+function buildIndex(){
+  IDX=FAQS.map(f=>{ const kw=new Set(), qw=new Set(); toks(f.k).forEach(w=>variants(w).forEach(x=>kw.add(x))); toks(f.q).forEach(w=>variants(w).forEach(x=>qw.add(x))); return {f,kw,qw,all:[...kw,...qw]}; });
+  DF={}; IDX.forEach(it=>new Set(it.all).forEach(w=>DF[w]=(DF[w]||0)+1));
+}
+buildIndex();
 // الكلمة النادرة (زي «حموضة») أهم من الكلمة المتكررة في أسئلة كتير (زي «بالليل»)
-const DF={}; IDX.forEach(it=>new Set(it.all).forEach(w=>DF[w]=(DF[w]||0)+1));
 function rarity(vs){ const d=Math.max(1,...vs.map(x=>DF[x]||0)); return 1/Math.sqrt(d); }
 function search(text){
   const qt=toks(text); if(!qt.length) return [];
@@ -1093,7 +1098,7 @@ function renderFaqList(){
     $("faqList").innerHTML = R.length? R.slice(0,25).map(qaHtml).join("") : '<p class="muted">مفيش نتايج. جربي كلمة تانية أو <a href="#" onclick="askMode(\'chat\');return false">اسألي البوت</a>.</p>';
     return;
   }
-  $("faqList").innerHTML = CATS.map(c=>{ const L=FAQS.filter(f=>f.c===c.id); return L.length? '<details class="cat"><summary>'+c.icon+' '+esc(c.name)+' <span class="muted">('+L.length+')</span></summary>'+L.map(qaHtml).join("")+'</details>' : ""; }).join("");
+  $("faqList").innerHTML = CATS.map(c=>{ const L=FAQS.filter(f=>f.c===c.id); return L.length? '<details class="cat"><summary>'+esc(c.icon)+' '+esc(c.name)+' <span class="muted">('+L.length+')</span></summary>'+L.map(qaHtml).join("")+'</details>' : ""; }).join("");
 }
 
 /* ---------- العرض ---------- */
@@ -1123,7 +1128,7 @@ function render(){
     $("eddText").textContent="الولادة المتوقعة: "+p.edd.toLocaleDateString("ar-EG",{day:"numeric",month:"long",year:"numeric"});
     $("leftText").textContent=p.left>=0?("فاضل "+p.left+" يوم"):"";
     const tips=(TIPS.find(x=>p.w<=x.to)||TIPS[TIPS.length-1]).t;
-    $("tipsList").innerHTML=tips.map(t=>"<li>"+t+"</li>").join("");
+    $("tipsList").innerHTML=tips.map(t=>"<li>"+esc(t)+"</li>").join("");
   }
   // جرعات النهارده
   const t=ymd(new Date()), tk=S.taken[t]||{};
@@ -1141,7 +1146,7 @@ function render(){
   // المواعيد
   $("apptList").innerHTML = S.appts.length? S.appts.map(a=>'<div class="item'+(a.date<t?" past":"")+'"><div class="row between"><b>'+esc(a.title)+'</b><button class="btn2 btn-sm" onclick="delAppt(\''+a.id+'\')">مسح</button></div><div class="muted">'+fmtD(parseD(a.date))+' • '+fmtT(a.time)+(a.note?" • "+esc(a.note):"")+'</div>'+(a.date>=t?'<a class="btn btn-sm btn2" target="_blank" style="margin-top:4px" href="'+gcalOnce(a.title,a.date,a.time,a.note)+'">أضيفي للتقويم</a>':'')+'</div>').join("")
     : '<p class="muted">مفيش مواعيد متسجلة.</p>';
-  $("planList").innerHTML = p? plan(p).map(x=>{ const past=x.date<today0(); return '<div class="item'+(past?" past":"")+'"><div class="row between"><span><span class="tag">أسبوع '+x.w+'</span> '+x.t+'</span></div><div class="row between"><span class="muted">حوالي '+fmtD(x.date)+'</span>'+(past?'':'<span><button class="btn-sm btn2" onclick="openAppt(\''+x.t.split(" +")[0]+'\',\''+ymd(x.date)+'\')">سجّلي</button> <button class="btn-sm btn-ok" onclick="go(\'clinic\');$(\'bkDate\').value=\''+ymd(x.date)+'\'">احجزي</button></span>')+'</div></div>'; }).join("")
+  $("planList").innerHTML = p? plan(p).map(x=>{ const past=x.date<today0(); return '<div class="item'+(past?" past":"")+'"><div class="row between"><span><span class="tag">أسبوع '+x.w+'</span> '+esc(x.t)+'</span></div><div class="row between"><span class="muted">حوالي '+fmtD(x.date)+'</span>'+(past?'':'<span><button class="btn-sm btn2" data-act="reg" data-t="'+esc(x.t.split(" +")[0])+'" data-d="'+ymd(x.date)+'">سجّلي</button> <button class="btn-sm btn-ok" data-act="book" data-d="'+ymd(x.date)+'">احجزي</button></span>')+'</div></div>'; }).join("")
     : '<p class="muted">اكتبي بيانات الحمل في الرئيسية الأول.</p>';
   // بياناتي
   $("myData").innerHTML = p? "الاسم: "+esc(S.profile.name||"—")+"<br>موعد الولادة المتوقع: "+p.edd.toLocaleDateString("ar-EG")+"<br>الفصيلة: "+(S.profile.rh==="neg"?"سالب":S.profile.rh==="pos"?"موجب":"غير محددة") : "لسه ما سجلتيش بيانات الحمل.";
@@ -1151,8 +1156,124 @@ function render(){
   renderKick(); renderCt(); renderBag(); renderVitals();
   if(document.activeElement!==$("drQs")) $("drQs").value=S.questions||"";
 }
+
+/* =========================================================
+   📄 المحتوى من ملفات جوجل (فولدر «محتوى تطبيق د. مجدي»)
+   التطبيق بيقرا الملفات كل ما يفتح، وبيحفظ آخر نسخة سليمة على الموبايل.
+   لو مفيش نت أو فيه ملف فيه غلط: بيكمّل بآخر نسخة محفوظة، وإلا بالمحتوى اللي جوه التطبيق.
+   ========================================================= */
+const SHEETS = {
+  clinic: "1hCzECIClGrF4BT2vYsDuYhzlepA_HLqf7kLDwDohnW0",
+  faq:    "1IQBmsiozqFigj9etop4AeZlLlLjrV3vU9HqsDQmZ8r4",
+  tips:   "1liXcQ6gtB_3m97OS8CNTEAE9isbAUAQGwk8stCEWric",
+  sizes:  "18Ts56d_NHZHkiM-Ff6iTHW3hH4CoxylGaSkUgkihWKk",
+  plan:   "14XEiB6XQthd2FQjSLN9vjJglK-ERW3fbFN5IkLnv09I",
+  lists:  "1SozzNjMILI3i4b-Vr6hh7xvSk4VRX73VYSDFI6bLSTc"
+};
+const CKEY = "drmagdy_content_v1";
+const sheetUrl = id => "https://docs.google.com/spreadsheets/d/" + id + "/export?format=csv";
+function parseCSV(t){
+  const rows=[]; let row=[], f="", q=false;
+  t=String(t).replace(/^\uFEFF/,"");
+  for(let i=0;i<t.length;i++){
+    const c=t[i];
+    if(q){ if(c==='"'){ if(t[i+1]==='"'){ f+='"'; i++; } else q=false; } else f+=c; }
+    else if(c==='"') q=true;
+    else if(c===","){ row.push(f); f=""; }
+    else if(c==="\n"||c==="\r"){ if(c==="\r"&&t[i+1]==="\n") i++; row.push(f); rows.push(row); row=[]; f=""; }
+    else f+=c;
+  }
+  if(f!==""||row.length){ row.push(f); rows.push(row); }
+  return rows.map(r=>r.map(x=>x.trim())).filter(r=>r.some(Boolean));
+}
+const cut=(s,n)=>String(s||"").slice(0,n);
+const digits=s=>String(s||"").replace(/[^\d]/g,"");
+const CAT_ICONS={"الحمل المبكر":"🌱","الأدوية في الحمل":"💊","الأكل والتغذية":"🥗","الأعراض الشائعة":"🤰","السونار والتحاليل":"🩺","الولادة":"👶","بعد الولادة والرضاعة":"🍼","الدورة وتأخر الحمل":"📆","العيادة والحجز":"🏥"};
+// كل جزء بيتراجع لوحده — لو فيه مشكلة بيرجع null والجزء ده بيفضل زي ما هو
+const PARSE = {
+  clinic(rows){
+    const v={}; rows.slice(1).forEach(r=>{ if(r[0]) v[r[0].toLowerCase()]=r[2]||""; });
+    const o={};
+    if(v.doctor) o.doctor=cut(v.doctor,80);
+    if(v.title) o.title=cut(v.title,160);
+    if(v.address!==undefined) o.address=cut(v.address,300);
+    if(v.hours!==undefined) o.hours=cut(v.hours,600);
+    let ph=digits(v.phone); if(ph.startsWith("20")&&ph.length===12) ph="0"+ph.slice(2); if(ph.length>=7&&ph.length<=15) o.phone=ph;
+    let wa=digits(v.whatsapp); if(wa.startsWith("0")) wa="20"+wa.slice(1); if(wa.length>=10&&wa.length<=15) o.whatsapp=wa;
+    if(v.map!==undefined) o.map=/^https:\/\//.test(v.map)?cut(v.map,400):"";
+    return Object.keys(o).length? o : null;
+  },
+  faq(rows){
+    const cats=[], seen={}, out=[], ids=new Set();
+    rows.slice(1).forEach((r,i)=>{
+      const q=cut(r[2],300), a=cut(r[4],2500); if(!q||!a) return;
+      let id=cut((r[0]||"").replace(/[^\w-]/g,""),40)||("row"+(i+2)); while(ids.has(id)) id+="_"; ids.add(id);
+      const cn=cut(r[1]||"أسئلة تانية",60);
+      if(!seen[cn]){ seen[cn]="c"+cats.length; cats.push({id:seen[cn],name:cn,icon:CAT_ICONS[cn]||"📌"}); }
+      out.push({id,c:seen[cn],q,k:cut(r[3],400),a,r:/^(أيوه|ايوه|أيوة|ايوة|نعم|yes|y|1|✓)$/i.test(r[5]||"")?1:0});
+    });
+    return out.length? {faq:out,cats} : null;
+  },
+  tips(rows){
+    const g={}; rows.slice(1).forEach(r=>{ const to=parseInt(r[0],10), t=cut(r[1],300); if(to>0&&to<60&&t) (g[to]=g[to]||[]).push(t); });
+    const L=Object.keys(g).map(Number).sort((a,b)=>a-b).map(to=>({to,t:g[to]}));
+    return L.length? L : null;
+  },
+  sizes(rows){
+    const o={}; rows.slice(1).forEach(r=>{ const w=parseInt(r[0],10); if(w>=1&&w<=45&&r[2]) o[w]=[cut(r[1],8)||"👶",cut(r[2],60)]; });
+    return Object.keys(o).length>=5? o : null;
+  },
+  plan(rows){
+    const L=rows.slice(1).map(r=>[parseInt(r[0],10),cut(r[1],150)]).filter(([w,t])=>w>=1&&w<=45&&t).sort((a,b)=>a[0]-b[0]);
+    return L.length? L : null;
+  },
+  lists(rows){
+    const col=i=>rows.slice(1).map(r=>cut(r[i],150)).filter(Boolean);
+    const o={danger:col(0),bag:col(1),quick:col(2),reasons:col(3),types:col(4)};
+    return Object.values(o).some(a=>a.length)? o : null;
+  }
+};
+function applyContent(c){
+  if(!c) return;
+  try{
+    if(c.clinic) Object.assign(CLINIC, c.clinic);
+    if(c.faq){ FAQS=c.faq.faq; CATS=c.faq.cats; buildIndex(); }
+    if(c.tips) TIPS=c.tips;
+    if(c.sizes) SIZES=c.sizes;
+    if(c.plan) PLAN=c.plan;
+    if(c.lists){
+      if(c.lists.danger.length) DANGER_SIGNS=c.lists.danger;
+      if(c.lists.bag.length) BAG=c.lists.bag;
+      if(c.lists.quick.length) QUICK=c.lists.quick;
+      if(c.lists.reasons.length) REASONS=c.lists.reasons;
+      if(c.lists.types.length) APPT_TYPES=c.lists.types;
+    }
+  }catch(e){ console.error(e); }
+}
+async function getText(url){
+  if(NATIVE){ const r=await native("get",{url,timeout:15000}); return r&&r.status===200? r.body : null; }
+  const ctl=new AbortController(), tm=setTimeout(()=>ctl.abort(),15000);
+  try{ const r=await fetch(url,{signal:ctl.signal}); return r.ok? await r.text() : null; } catch(e){ return null; } finally{ clearTimeout(tm); }
+}
+async function refreshContent(){
+  let saved={}; try{ saved=JSON.parse(localStorage.getItem(CKEY))||{}; }catch(e){}
+  const fresh={}; let changed=false;
+  await Promise.all(Object.entries(SHEETS).map(async([k,id])=>{
+    try{
+      const t=await getText(sheetUrl(id)); if(!t || /^\s*</.test(t)) return;  // صفحة دخول جوجل = الملف مش متشارك
+      const v=PARSE[k](parseCSV(t)); if(v){ fresh[k]=v; if(JSON.stringify(v)!==JSON.stringify(saved[k])) changed=true; }
+    }catch(e){}
+  }));
+  if(!Object.keys(fresh).length) return;
+  const merged=Object.assign({}, saved, fresh);
+  try{ localStorage.setItem(CKEY, JSON.stringify(merged)); }catch(e){}
+  if(changed){ applyContent(fresh); applyClinicUI(); render(); if($("askBrowse").style.display!=="none") renderFaqList(); }
+}
+try{ applyContent(JSON.parse(localStorage.getItem(CKEY))); }catch(e){}
+applyClinicUI();
 render();
 setInterval(()=>{ if(K) renderKick(); },30000);
+refreshContent();
 </script>
 </body>
 </html>

@@ -111,6 +111,8 @@ class _AppScreenState extends State<AppScreen> {
       switch (msg['type']) {
         case 'post':
           res = await _post(msg);
+        case 'get':
+          res = await _get(msg);
         case 'open':
           await _openExternal('${msg['url']}');
           res = true;
@@ -133,6 +135,17 @@ class _AppScreenState extends State<AppScreen> {
     final r = await http
         .post(Uri.parse('${msg['url']}'), headers: headers, body: '${msg['body'] ?? ''}')
         .timeout(Duration(milliseconds: ms));
+    return {'status': r.statusCode, 'body': utf8.decode(r.bodyBytes, allowMalformed: true)};
+  }
+
+  /// قراءة ملفات المحتوى من جوجل (بيانات العيادة والأسئلة…) — من docs.google.com بس
+  Future<Map<String, Object>> _get(Map<String, dynamic> msg) async {
+    final uri = Uri.parse('${msg['url']}');
+    if (uri.scheme != 'https' || uri.host != 'docs.google.com') {
+      return {'status': 0, 'body': '', 'error': 'host not allowed'};
+    }
+    final ms = (msg['timeout'] as num?)?.toInt() ?? 15000;
+    final r = await http.get(uri).timeout(Duration(milliseconds: ms));
     return {'status': r.statusCode, 'body': utf8.decode(r.bodyBytes, allowMalformed: true)};
   }
 
