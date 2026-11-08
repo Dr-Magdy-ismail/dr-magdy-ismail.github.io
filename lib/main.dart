@@ -185,8 +185,11 @@ class _AppScreenState extends State<AppScreen> {
       return x == null ? [] : [Uri.file(x.path).toString()];
     }
     final files = await FilePicker.pickFiles(type: FileType.any);
-    final path = (files == null || files.isEmpty) ? null : files.first.path;
-    return path == null ? [] : [Uri.file(path).toString()];
+    if (files.isEmpty) return [];
+    final dir = await getTemporaryDirectory();
+    final f = File('${dir.path}/picked-${DateTime.now().millisecondsSinceEpoch}.json');
+    await f.writeAsBytes(await files.first.readAsBytes());
+    return [Uri.file(f.path).toString()];
   }
 
   // ---------- زرار الرجوع ----------
