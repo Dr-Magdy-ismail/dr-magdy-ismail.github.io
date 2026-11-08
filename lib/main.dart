@@ -20,6 +20,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 
+import 'reminders.dart';
+
 /// العنوان اللي الصفحة بتتحمّل عليه. بيانات المريضة (localStorage) مربوطة بيه —
 /// ما تغيّروش بعد النشر، وإلا البيانات القديمة مش هتبان.
 const kBase = 'https://app.drmagdy.invalid/';
@@ -126,6 +128,12 @@ class _AppScreenState extends State<AppScreen> {
         case 'share':
           await _share(msg);
           res = true;
+        case 'reminders':
+          res = await Reminders.schedule((msg['items'] as List?) ?? const []);
+        case 'notifPermission':
+          res = await Reminders.requestPermission();
+        case 'notifStatus':
+          res = await Reminders.status();
       }
     } catch (e) {
       res = {'status': 0, 'body': '', 'error': e is TimeoutException ? 'timeout' : '$e'};

@@ -251,8 +251,9 @@ details.qa{background:#F5F9FF}
   </div>
   <div class="card">
     <h2>🔔 التنبيهات</h2>
-    <p class="muted">علشان التنبيه يرن حتى والتطبيق مقفول، دوسي «أضيفي للتقويم» جنب كل ميعاد — هيتسجل في تقويم الموبايل ويرن كل يوم.</p>
-    <button class="btn2 full" onclick="askNotif()">تفعيل تنبيهات التطبيق</button>
+    <p class="muted" id="notifHint">علشان التنبيه يرن حتى والتطبيق مقفول، دوسي «أضيفي للتقويم» جنب كل ميعاد — هيتسجل في تقويم الموبايل ويرن كل يوم.</p>
+    <div id="notifState"></div>
+    <button class="btn2 full" id="notifBtn" onclick="askNotif()">تفعيل تنبيهات التطبيق</button>
   </div>
 </section>
 
@@ -512,7 +513,7 @@ function load(){
   try{ const d = JSON.parse(localStorage.getItem(KEY)); if(d) return Object.assign(blank(), d); }catch(e){}
   return blank();
 }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast("مش قادر أحفظ على الجهاز ده"); } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast("مش قادر أحفظ على الجهاز ده"); } syncReminders(); }
 const $ = id => document.getElementById(id);
 const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const DAY = 86400000;
@@ -610,7 +611,7 @@ function saveMed(){
   const id=$("mId").value;
   if(id){ Object.assign(S.meds.find(x=>x.id===id),{name,note:$("mNote").value.trim(),times}); }
   else S.meds.push({id:uid(),name,note:$("mNote").value.trim(),times,added:ymd(new Date())});
-  save(); closeM("medModal"); render(); toast("اتحفظ ✓");
+  save(); closeM("medModal"); render(); toast("اتحفظ ✓"); ensureNotifPermission();
 }
 function delMed(id){ if(confirmDel(id)){ S.meds=S.meds.filter(x=>x.id!==id); save(); render(); } }
 let _delArm=0, _delWhat=null;
@@ -709,8 +710,54 @@ function importData(inp){ const f=inp.files[0]; if(!f) return; const r=new FileR
 /* ---------- التنبيهات داخل التطبيق ---------- */
 let swReg=null;
 if("serviceWorker" in navigator && !NATIVE){ navigator.serviceWorker.register("sw.js").then(r=>swReg=r).catch(()=>{}); }
+/* ---------- تنبيهات الأدوية جوه تطبيق الأندرويد (بترن حتى والتطبيق مقفول — زي دوايا) ----------
+   بنحسب كل جرعة في الأيام الجاية ونبعتها للأندرويد يحجزها في المنبّه.
+   كل ما المريضة تضيف/تعدّل دوا أو تعلّم ✓ أو تفتح التطبيق، الحجز بيتجدد. */
+const REMIND_DAYS = 10;
+function reminderItems(){
+  const out=[], now=new Date();
+  for(let i=0;i<REMIND_DAYS;i++){
+    const d=ymd(new Date(today0().getTime()+i*DAY));
+    S.meds.forEach(m=>{
+      if(m.until && d>m.until) return;
+      if(m.added && d<m.added) return;
+      m.times.forEach(tm=>{
+        if((S.taken[d]||{})[m.id+"_"+tm]) return;          // اتاخدت خلاص
+        const at=d+"T"+tm; if(new Date(at)<=now) return;
+        out.push({at, title:"💊 ميعاد "+m.name, body:(m.note? m.note+" — " : "")+"افتحي التطبيق ودوسي ✓ لما تاخديها"});
+      });
+    });
+  }
+  out.sort((a,b)=>a.at.localeCompare(b.at));
+  if(out.length){  // تذكير قبل ما المواعيد المحجوزة تخلص
+    const last=ymd(new Date(today0().getTime()+(REMIND_DAYS-1)*DAY));
+    out.push({at:last+"T11:00", title:"🔔 افتحي تطبيق د. مجدي", body:"افتحي التطبيق مرة علشان تنبيهات الأدوية تفضل شغالة"});
+  }
+  return out.slice(0,300);
+}
+let _remT=null;
+function syncReminders(){ if(!NATIVE) return; clearTimeout(_remT); _remT=setTimeout(()=>native("reminders",{items:reminderItems()}),500); }
+async function refreshNotifState(){
+  if(!NATIVE) return;
+  const st=await native("notifStatus",{})||{};
+  $("notifHint").textContent="🔔 تنبيه في ميعاد كل جرعة — بيرن لوحده حتى والتطبيق مقفول. «أضيفي للتقويم» اختياري.";
+  $("notifState").innerHTML = st.notif
+    ? '<p style="color:var(--ok);font-weight:700;margin:0 0 8px">✓ التنبيهات شغالة'+(st.exact?'':' (ممكن تتأخر دقايق — فعّلي «المنبّهات الدقيقة» من الزرار)')+'</p>'
+    : '<p style="color:var(--warn);font-weight:700;margin:0 0 8px">⚠️ التنبيهات مقفولة — دوسي الزرار تحت وفعّليها</p>';
+  $("notifBtn").style.display = (st.notif && st.exact) ? "none" : "";
+  $("notifBtn").textContent = "تفعيل التنبيهات";
+}
+// أول ما يبقى فيه دوا: نطلب الإذن مرة واحدة
+async function ensureNotifPermission(){
+  if(!NATIVE || S.notifAsked || !S.meds.length) return;
+  S.notifAsked=true; try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
+  await native("notifPermission",{}); syncReminders(); refreshNotifState();
+}
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ syncReminders(); refreshNotifState(); } });
+
 function askNotif(){
-  if(NATIVE || !("Notification" in window)){ toast("علشان التنبيه يرن في ميعاده، دوسي «أضيفي للتقويم» جنب كل دوا"); return; }
+  if(NATIVE){ native("notifPermission",{}).then(r=>{ toast(r&&r.notif?"التنبيهات اتفعلت ✓":"التنبيهات لسه مقفولة — فعّليها من إعدادات الموبايل"); syncReminders(); refreshNotifState(); }); return; }
+  if(!("Notification" in window)){ toast("علشان التنبيه يرن في ميعاده، دوسي «أضيفي للتقويم» جنب كل دوا"); return; }
   Notification.requestPermission().then(p=>toast(p==="granted"?"التنبيهات اتفعلت ✓":"التنبيهات مقفولة من الإعدادات"));
 }
 function notify(title,body){
@@ -814,7 +861,7 @@ function saveRx(){
   });
   if(missing){ toast("فيه دوا من غير اسم أو من غير ميعاد"); return; }
   if(!n){ toast("اختاري دوا واحد على الأقل"); return; }
-  save(); closeM("rxModal"); render(); toast("اتضاف "+n+" دوا ✓");
+  save(); closeM("rxModal"); render(); toast("اتضاف "+n+" دوا ✓"); ensureNotifPermission();
 }
 
 /* =========================================================
@@ -1305,6 +1352,7 @@ applyClinicUI();
 render();
 setInterval(()=>{ if(K) renderKick(); },30000);
 refreshContent();
+syncReminders(); refreshNotifState();
 </script>
 </body>
 </html>
