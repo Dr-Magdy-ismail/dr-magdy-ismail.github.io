@@ -31,6 +31,9 @@ flutter_launcher_icons:
   android: true
   ios: false
   image_path: assets/icon/icon.png
+  # أندرويد 8+: نفس اللوجو على خلفية بيضا (الموبايل بيقصّها دايرة أو مربع حسب نوعه)
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: assets/icon/icon_fg.png
   min_sdk_android: 24
 
 flutter:
