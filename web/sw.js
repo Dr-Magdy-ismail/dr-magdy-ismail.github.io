@@ -1,5 +1,5 @@
-const CACHE = "drmagdy-v4";
-const FILES = ["./", "./index.html", "./faq.js", "./manifest.json", "./icon-192.png", "./icon-512.png", "./logo.png"];
+const CACHE = "drmagdy-v5";
+const FILES = ["./", "./index.html", "./faq.js", "./manifest.json", "./icon-192.png", "./icon-512.png", "./logo.png", "./apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));

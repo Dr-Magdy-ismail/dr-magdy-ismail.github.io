@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4A9AE0">
+<title>رحلة الحمل — د. مجدي إسماعيل محمد</title>
+<meta name="description" content="تطبيق «رحلة الحمل» لمريضات د. مجدي إسماعيل محمد — متابعة الحمل والأدوية والمواعيد وتقرير للدكتور.">
+<link rel="icon" href="app/icon-192.png">
+<link rel="apple-touch-icon" href="app/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#2F76B8;--blue-d:#1E5A8F;--pink:#F28DB5;--pink-d:#B23A6E;--ink:#1F2A37;--muted:#6B7685;--line:#DCE8F5}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Cairo',system-ui,sans-serif;background:#F5F9FF;color:var(--ink);min-height:100vh;font-size:17px;line-height:1.7}
+.top{background:linear-gradient(135deg,#4A9AE0 0%,#7DB8EC 45%,#F28DB5 100%);color:#fff;text-align:center;padding:34px 20px 70px;border-radius:0 0 36px 36px}
+.top img{width:104px;height:104px;border-radius:50%;background:#fff;border:4px solid #fff;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.top h1{font-size:30px;font-weight:800;margin-top:10px;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.top p{opacity:.95;font-size:15px}
+main{max-width:520px;margin:-46px auto 0;padding:0 16px 30px}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 6px 20px rgba(47,118,184,.1);margin-bottom:14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;font:inherit;font-weight:800;font-size:19px;color:#fff;border:0;border-radius:16px;padding:15px;text-decoration:none;background:var(--blue);margin-top:12px}
+.btn.pink{background:linear-gradient(135deg,#E0679A,#F28DB5)}
+.btn.light{background:#E3F0FC;color:var(--blue-d)}
+h2{font-size:20px;color:var(--blue-d)}
+ol{padding-inline-start:22px;margin-top:8px}li{margin:6px 0}
+.muted{color:var(--muted);font-size:14px}
+.sh{display:inline-block;border:1.5px solid var(--blue);border-radius:6px;padding:0 6px;font-weight:700;color:var(--blue)}
+.feat{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
+.feat span{background:#FDE7F0;color:var(--pink-d);border-radius:20px;padding:4px 12px;font-weight:700;font-size:14px}
+.hide{display:none}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:10px}
+</style>
+</head>
+<body>
+<div class="top">
+  <img src="app/logo.png" alt="">
+  <h1>رحلة الحمل</h1>
+  <p>تطبيق مريضات د. مجدي إسماعيل محمد</p>
+</div>
+<main>
+  <div class="card" style="text-align:center">
+    <div style="font-weight:800;font-size:20px">تابعي حملك من موبايلك 🤰</div>
+    <div class="feat"><span>👶 أسبوع بأسبوع</span><span>💊 مواعيد الأدوية</span><span>📄 تقرير للدكتور</span><span>💬 اسألي د. مجدي</span></div>
+  </div>
+
+  <!-- أندرويد -->
+  <div class="card" id="android">
+    <h2>🤖 موبايل أندرويد</h2>
+    <a class="btn" href="https://github.com/ainelhaya255/Dr-Magdy-ismail/releases/latest/download/dr-magdy.apk">⬇️ نزّلي التطبيق</a>
+    <ol class="muted">
+      <li>افتحي الملف اللي نزل (dr-magdy.apk).</li>
+      <li>لو طلب «السماح بالتثبيت من المصدر ده»: دوسي الإعدادات وفعّليها، وارجعي دوسي «تثبيت».</li>
+      <li>هتلاقي أيقونة «د. مجدي» على الشاشة.</li>
+    </ol>
+  </div>
+
+  <!-- آيفون -->
+  <div class="card" id="ios">
+    <h2>🍎 آيفون</h2>
+    <a class="btn pink" href="app/">📱 افتحي التطبيق</a>
+    <p class="muted" style="margin-top:10px">وعلشان يبقى أيقونة على الشاشة زي أي تطبيق:</p>
+    <ol class="muted">
+      <li>افتحي الصفحة دي من <b>Safari</b>.</li>
+      <li>دوسي «افتحي التطبيق» فوق.</li>
+      <li>دوسي زرار المشاركة <span class="sh">⬆</span> تحت.</li>
+      <li>اختاري <b>«إضافة إلى الشاشة الرئيسية»</b> ← <b>«إضافة»</b>.</li>
+    </ol>
+  </div>
+
+  <div class="card" id="other">
+    <h2>💻 من الكمبيوتر</h2>
+    <p class="muted">التطبيق معمول للموبايل — افتحي الصفحة دي من موبايلك، أو جرّبيه هنا:</p>
+    <a class="btn light" href="app/">افتحي التطبيق في المتصفح</a>
+  </div>
+
+  <p class="muted" style="text-align:center">🔒 بياناتك محفوظة على موبايلك بس — مش بتتبعت لأي حد.<br>📞 العيادة: <span dir="ltr">010 9564 9036</span></p>
+</main>
+<footer>د. مجدي إسماعيل محمد — استشاري أمراض النسا والتوليد والعقم وجراحة المناظير</footer>
+<script>
+// نعرض اللي يناسب الموبايل الأول (والباقي يفضل موجود تحت)
+var ua = navigator.userAgent || "";
+var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+var isAndroid = /Android/i.test(ua);
+var main = document.querySelector("main"), first = main.children[1];
+if (isIOS) { main.insertBefore(document.getElementById("ios"), first); document.getElementById("other").className += " hide"; }
+else if (isAndroid) { document.getElementById("other").className += " hide"; }
+</script>
+</body>
+</html>
