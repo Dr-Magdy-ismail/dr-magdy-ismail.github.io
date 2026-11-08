@@ -184,8 +184,8 @@ class _AppScreenState extends State<AppScreen> {
       final x = await ImagePicker().pickImage(source: source, maxWidth: 2400, maxHeight: 2400, imageQuality: 90);
       return x == null ? [] : [Uri.file(x.path).toString()];
     }
-    final r = await FilePicker.pickFiles(type: FileType.any);
-    final path = r?.files.single.path;
+    final files = await FilePicker.pickFiles(type: FileType.any);
+    final path = (files == null || files.isEmpty) ? null : files.first.path;
     return path == null ? [] : [Uri.file(path).toString()];
   }
 
