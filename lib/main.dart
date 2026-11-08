@@ -23,7 +23,14 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 /// العنوان اللي الصفحة بتتحمّل عليه. بيانات المريضة (localStorage) مربوطة بيه —
 /// ما تغيّروش بعد النشر، وإلا البيانات القديمة مش هتبان.
 const kBase = 'https://app.drmagdy.invalid/';
-const kPlum = Color(0xFF8E3B64);
+const kPlum = Color(0xFF2F76B8); // الأزرق الأساسي
+// نفس تدرّج الهيدر في التطبيق (أزرق سماوي ← بمبي)
+const kGrad = LinearGradient(
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  colors: [Color(0xFF4A9AE0), Color(0xFF7DB8EC), Color(0xFFF28DB5)],
+  stops: [0, .45, 1],
+);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +72,7 @@ class _AppScreenState extends State<AppScreen> {
     super.initState();
     _web = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0xFFFDF3F7))
+      ..setBackgroundColor(const Color(0xFFF5F9FF))
       ..addJavaScriptChannel('DrMagdy', onMessageReceived: (m) => _onMessage(m.message))
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (req) {
@@ -224,15 +231,16 @@ class _AppScreenState extends State<AppScreen> {
         if (!didPop) _onBack();
       },
       child: Scaffold(
-        backgroundColor: kPlum,
+        backgroundColor: Colors.white,
         body: Column(children: [
-          SizedBox(height: pad.top), // ورا شريط الساعة: نفس لون الهيدر
+          // ورا شريط الساعة: نفس تدرّج الهيدر
+          Container(height: pad.top, decoration: const BoxDecoration(gradient: kGrad)),
           Expanded(
             child: Stack(children: [
               WebViewWidget(controller: _web),
               if (_loading)
-                const ColoredBox(
-                  color: kPlum,
+                const DecoratedBox(
+                  decoration: BoxDecoration(gradient: kGrad),
                   child: Center(child: CircularProgressIndicator(color: Colors.white)),
                 ),
             ]),
