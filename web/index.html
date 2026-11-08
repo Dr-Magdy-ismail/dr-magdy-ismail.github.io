@@ -66,6 +66,7 @@ nav button.on{color:var(--plum)}
 .sheet{background:#fff;width:100%;max-width:640px;margin:auto;border-radius:24px 24px 0 0;padding:18px;max-height:90vh;overflow:auto}
 .toast{position:fixed;top:14px;right:14px;left:14px;background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;z-index:30;text-align:center;display:none}
 table{width:100%;border-collapse:collapse;font-size:15px}
+#clHours{white-space:pre-line}
 td,th{padding:6px;border-bottom:1px solid var(--line);text-align:right}
 /* الهيدر بصورة الدكتور */
 header{display:flex;align-items:center;gap:14px}
@@ -447,15 +448,15 @@ details.qa p{margin:6px 0}
    ⚙️ بيانات العيادة — غيّر القيم دي بس
    ========================================================= */
 const CLINIC = {
-  doctor:   "د. مجدي إسماعيل",
-  title:    "استشاري أمراض النساء والتوليد",
-  phone:    "01222332307",        // رقم العيادة للاتصال
+  doctor:   "د. مجدي إسماعيل محمد",
+  title:    "استشاري أمراض النسا والتوليد والعقم وجراحة المناظير",
+  phone:    "01095649036",        // تليفون العيادة (للاتصال)
   whatsapp: "201222332307",       // رقم الواتساب بصيغة دولية بدون +
-  address:  "",                   // عنوان العيادة (فاضي = مش بيظهر)
-  hours:    "",                   // مثال: "مواعيد العيادة: يوميًا من 6 إلى 10 مساءً ما عدا الجمعة"
+  address:  "شارع الجيش، بجوار الرخاوي، أعلى مركز الإسراء، الدور الرابع — عيادة المرحوم الدكتور أحمد الصديق سابقًا (داخل معمل كيور لاب)",
+  hours:    "السبت والإثنين والثلاثاء والأربعاء: العيادة تبدأ 4:30 مساءً — الحجز من 12 ظهرًا\nالأحد والخميس: العيادة تبدأ 1 ظهرًا — الحجز من 11 صباحًا\nبرجاء التنسيق مع السكرتارية للحجز",
   map:      "",                   // لينك اللوكيشن من Google Maps (فاضي = الزرار مش بيظهر)
 
-  // خدمة قراءة الروشتة وبوت الأسئلة (Cloudflare Worker) — سيبهم فاضيين لو مش عايز الخدمة
+  // خدمة قراءة الروشتة وبوت الأسئلة (Cloudflare Worker — نفس خدمة دوايا)
   reader:   "https://dawaya-reader.elhamoly27.workers.dev",  // رابط الخدمة من غير / في الآخر
   token:    "",                     // بيتحط وقت البناء من secret اسمه APP_TOKEN
 };
