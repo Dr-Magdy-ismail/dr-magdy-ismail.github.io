@@ -1,6 +1,6 @@
 """
 بيجهّز نسخة التطبيق اللي جوه الـ APK من فولدر web/:
-ملف واحد assets/app/app.html فيه faq.js وصورة الدكتور جواه
+ملف واحد assets/app/app.html فيه faq.js واللوجو جواه
 (لأن الصفحة بتتحمّل من غير سيرفر، فمفيش ملفات جنبها).
 بيشتغل أوتوماتيك جوه GitHub Actions — مش محتاج تشغّله بإيدك.
 """
@@ -32,11 +32,11 @@ if '<script src="faq.js"></script>' not in html:
     fail("faq.js script tag not found")
 html = html.replace('<script src="faq.js"></script>', "<script>\n" + faq.replace("</script", "<\\/script") + "\n</script>")
 
-img = "data:image/jpeg;base64," + base64.b64encode((web / "doctor.jpg").read_bytes()).decode()
-count = html.count("doctor.jpg")
+img = "data:image/png;base64," + base64.b64encode((web / "logo.png").read_bytes()).decode()
+count = html.count("logo.png")
 if count < 3:
-    fail("doctor.jpg references not found")
-html = html.replace("doctor.jpg", img)
+    fail("logo.png references not found")
+html = html.replace("logo.png", img)
 
 # توكن الخدمة (نفس APP_TOKEN بتاع دوايا) — بييجي من GitHub Secrets، مش محفوظ في الكود
 token = os.environ.get("APP_TOKEN", "").strip()
@@ -55,4 +55,4 @@ if "window.DrMagdy" not in html:
 
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(html, encoding="utf-8")
-print(f"bundle_web: {out.relative_to(root)} ({len(html) // 1024} KB, doctor.jpg x{count})")
+print(f"bundle_web: {out.relative_to(root)} ({len(html) // 1024} KB, logo.png x{count})")

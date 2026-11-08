@@ -70,7 +70,7 @@ table{width:100%;border-collapse:collapse;font-size:15px}
 td,th{padding:6px;border-bottom:1px solid var(--line);text-align:right}
 /* الهيدر بصورة الدكتور */
 header{display:flex;align-items:center;gap:14px}
-.av{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.85);flex:none;background:var(--rose)}
+.av{width:64px;height:64px;border-radius:50%;object-fit:contain;border:3px solid rgba(255,255,255,.85);flex:none;background:#fff}
 .av-s{width:38px;height:38px;border-width:2px;border-color:var(--rose)}
 /* قراءة الروشتة */
 .rx{border:1.5px solid var(--line);border-radius:16px;padding:12px;margin-bottom:12px}
@@ -113,7 +113,7 @@ details.qa p{margin:6px 0}
 /* التقرير (بيتعمل بره الشاشة ويتحوّل PDF) */
 #report{position:fixed;top:0;left:-10000px;width:794px;background:#fff;color:#222;font-family:'Cairo',sans-serif;font-size:15px;line-height:1.6;direction:rtl;padding:36px 42px}
 #report .rh{display:flex;align-items:center;gap:18px;border-bottom:4px solid var(--plum);padding-bottom:14px;margin-bottom:16px}
-#report .rh img{width:92px;height:92px;border-radius:50%;object-fit:cover;border:3px solid var(--rose)}
+#report .rh img{width:92px;height:92px;border-radius:50%;object-fit:contain;border:3px solid var(--rose);background:#fff}
 #report .rh h1{margin:0;font-size:26px;color:var(--plum-d)}
 #report .rh .sub{color:#666;font-size:14px}
 #report .rt{margin-inline-start:auto;text-align:left;font-size:14px;color:#444;flex:none;white-space:nowrap}
@@ -135,7 +135,7 @@ details.qa p{margin:6px 0}
 <body>
 
 <header>
-  <img class="av" src="doctor.jpg" alt="">
+  <img class="av" src="logo.png" alt="">
   <div>
     <p class="dr" id="drName"></p>
     <p class="sp" id="drTitle"></p>
@@ -309,7 +309,7 @@ details.qa p{margin:6px 0}
 <section class="tab" id="t-ask">
   <div class="card">
     <div class="row" style="flex-wrap:nowrap">
-      <img class="av av-s" src="doctor.jpg" alt="" style="width:52px;height:52px">
+      <img class="av av-s" src="logo.png" alt="" style="width:52px;height:52px">
       <div><h2 style="margin:0">اسألي د. مجدي</h2><div class="muted">إجابات عامة على الأسئلة الشائعة — مش بديل عن الكشف.</div></div>
     </div>
     <div class="seg">
@@ -871,7 +871,7 @@ function buildReport(){
   const p=preg(), P=S.profile||{}, t=ymd(new Date());
   const row=(cells,tag)=>"<tr>"+cells.map(c=>"<"+(tag||"td")+">"+c+"</"+(tag||"td")+">").join("")+"</tr>";
   const none=txt=>'<p class="none">'+txt+'</p>';
-  let h='<div class="rh"><img src="doctor.jpg"><div><h1>'+esc(CLINIC.doctor)+'</h1><div class="sub">'+esc(CLINIC.title)+'</div><div class="sub">📞 '+esc(CLINIC.phone)+(CLINIC.address?' — '+esc(CLINIC.address):'')+'</div></div>'
+  let h='<div class="rh"><img src="logo.png"><div><h1>'+esc(CLINIC.doctor)+'</h1><div class="sub">'+esc(CLINIC.title)+'</div><div class="sub">📞 '+esc(CLINIC.phone)+(CLINIC.address?' — '+esc(CLINIC.address):'')+'</div></div>'
     +'<div class="rt"><b>تقرير متابعة الحمل</b>'+new Date().toLocaleDateString("ar-EG",{day:"numeric",month:"long",year:"numeric"})+'</div></div>';
   // بيانات المريضة
   h+='<div class="blk"><h2>👩 بيانات المريضة</h2><div class="grid">'
@@ -1024,7 +1024,7 @@ function askMode(m){
   $("askChat").style.display=m==="chat"?"block":"none"; $("askBrowse").style.display=m==="browse"?"block":"none";
   if(m==="browse") renderFaqList();
 }
-function avatar(){ return '<img class="av av-s" src="doctor.jpg" alt="">'; }
+function avatar(){ return '<img class="av av-s" src="logo.png" alt="">'; }
 function botSay(html,cls){ $("chatLog").insertAdjacentHTML("beforeend",'<div class="msg">'+avatar()+'<div class="bub'+(cls?" "+cls:"")+'">'+html+'</div></div>'); scrollChat(); }
 function meSay(text){ $("chatLog").insertAdjacentHTML("beforeend",'<div class="msg me"><div class="bub">'+esc(text)+'</div></div>'); scrollChat(); }
 function scrollChat(){ const l=$("chatLog").lastElementChild; if(l) l.scrollIntoView({behavior:"smooth",block:"end"}); }
