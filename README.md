@@ -7,9 +7,9 @@
 
 بعد ما التعديل يدخل `main`:
 
-**https://github.com/ainelhaya255/Dr-Magdy-ismail/releases/latest/download/dr-magdy.apk**
+**https://github.com/Dr-Magdy-ismail/dr-magdy-ismail.github.io/releases/latest/download/dr-magdy.apk**
 
-> المشروع **خاص (Private)**، فاللينك ده بيفتح لصاحب الحساب بس.
+
 > علشان المريضات ينزّلوه: **Settings ← General ← Danger Zone ← Change visibility ← Public**
 > (الكود مفيهوش بيانات مريضات — كل بيانات المريضة على موبايلها بس).
 
@@ -32,9 +32,9 @@
 
 ## الآيفون + كود واحد للكل
 
-- **صفحة التحميل** (اللي الكود QR بيفتحها): https://ainelhaya255.github.io/Dr-Magdy-ismail/
+- **صفحة التحميل** (اللي الكود QR بيفتحها): https://dr-magdy-ismail.github.io/
   أندرويد ← زرار تحميل الـ APK. آيفون ← «افتحي التطبيق» + إزاي تضيفه للشاشة الرئيسية من Safari.
-- **نسخة الويب** (نفس التطبيق): https://ainelhaya255.github.io/Dr-Magdy-ismail/app/
+- **نسخة الويب** (نفس التطبيق): https://dr-magdy-ismail.github.io/app/
 - بتتنشر لوحدها مع كل تعديل على `main` (`.github/workflows/pages.yml`).
   أول مرة بس: **Settings ← Pages ← Source: GitHub Actions**.
 - في نسخة الويب: قراءة الروشتة والبحث الذكي في البوت مقفولين لحد ما خدمة Cloudflare تتحدّث (CORS).

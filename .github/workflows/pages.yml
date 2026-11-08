@@ -1,8 +1,8 @@
 name: Web version (iPhone)
 
 # نسخة الويب للآيفون + صفحة التحميل اللي الكود (QR) بيفتحها:
-#   https://ainelhaya255.github.io/Dr-Magdy-ismail/       ← صفحة التحميل (أندرويد / آيفون)
-#   https://ainelhaya255.github.io/Dr-Magdy-ismail/app/   ← التطبيق نفسه (ويب)
+#   https://dr-magdy-ismail.github.io/       ← صفحة التحميل (أندرويد / آيفون)
+#   https://dr-magdy-ismail.github.io/app/   ← التطبيق نفسه (ويب)
 # أول مرة بس: Settings → Pages → Source: GitHub Actions
 # (لو حبيت تنشر من main: Settings → Environments → github-pages → ضيف main)
 on:
