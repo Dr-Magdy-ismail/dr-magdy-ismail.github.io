@@ -1,0 +1,15 @@
+# بيتعمل أوتوماتيك في GitHub Actions
+android/
+assets/app/
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+.idea/
+.vscode/
+*.iml
+node_modules/
+.wrangler/
+.env
+tool/*.keystore

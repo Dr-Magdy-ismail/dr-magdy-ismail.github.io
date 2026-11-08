@@ -1,0 +1,26 @@
+{
+  // خدمة قراءة الروشتات لتطبيق دوايا — Cloudflare Workers (مجاني)
+  // النشر: cd cloudflare && npx wrangler deploy
+  // الأسرار (مرة واحدة): npx wrangler secret put GEMINI_API_KEY / APP_TOKEN
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dawaya-reader",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  "vars": {
+    "GEMINI_MODEL": "gemini-3.6-flash",
+    "GEMINI_FALLBACK_MODELS": "gemini-3.5-flash,gemini-2.5-flash",
+    // مواقع الويب المسموح لها تستخدم الخدمة — حط لينك تطبيق د. مجدي على Netlify بدل *
+    "ALLOWED_ORIGINS": "*"
+  },
+  "ratelimits": [
+    {
+      "name": "RATE_LIMITER",
+      "namespace_id": "2701",
+      // 10 طلبات في الدقيقة لكل IP — كفاية جداً لمريض بيصوّر روشتة
+      "simple": { "limit": 10, "period": 60 }
+    }
+  ]
+}

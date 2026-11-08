@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#8e3b64">
+<title>د. مجدي إسماعيل — رحلة الحمل</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plum:#8e3b64; --plum-d:#6b2a4b; --rose:#f7e4ec; --rose2:#fdf3f7;
+  --ink:#2d1f27; --muted:#7a6670; --ok:#2e8b57; --warn:#c0392b; --card:#ffffff;
+  --line:#ecd9e2;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:'Cairo',system-ui,sans-serif;background:var(--rose2);color:var(--ink);font-size:18px;line-height:1.7;padding-bottom:88px}
+header{background:linear-gradient(135deg,var(--plum),var(--plum-d));color:#fff;padding:18px 18px 22px;border-radius:0 0 26px 26px}
+header .dr{font-size:22px;font-weight:800;margin:0}
+header .sp{opacity:.9;font-size:15px;margin:0}
+main{padding:14px;max-width:640px;margin:auto}
+.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(142,59,100,.08);border:1px solid var(--line)}
+h2{font-size:20px;margin:0 0 10px;color:var(--plum-d)}
+h3{font-size:18px;margin:12px 0 6px}
+.muted{color:var(--muted);font-size:15px}
+.big{font-size:34px;font-weight:800;color:var(--plum);line-height:1.2}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.bar{height:14px;background:var(--rose);border-radius:10px;overflow:hidden;margin:10px 0}
+.bar>div{height:100%;background:linear-gradient(90deg,#d77fa8,var(--plum));border-radius:10px}
+button,.btn{font-family:inherit;font-size:17px;font-weight:700;border:0;border-radius:14px;padding:12px 16px;background:var(--plum);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn2{background:var(--rose);color:var(--plum-d)}
+.btn-ok{background:var(--ok)}
+.btn-warn{background:var(--warn)}
+.btn-sm{padding:7px 12px;font-size:15px;border-radius:11px}
+.full{width:100%}
+input,select,textarea{font-family:inherit;font-size:18px;width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+label{display:block;font-weight:700;margin:10px 0 4px}
+.chip{display:inline-block;background:var(--rose);color:var(--plum-d);border-radius:20px;padding:5px 12px;margin:3px;font-size:15px;font-weight:600;cursor:pointer;border:0;font-family:inherit}
+.dose{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.dose:last-child{border-bottom:0}
+.dose.done .t{text-decoration:line-through;color:var(--muted)}
+.tick{width:46px;height:46px;border-radius:50%;border:2.5px solid var(--plum);background:#fff;color:var(--plum);font-size:24px;padding:0}
+.dose.done .tick{background:var(--ok);border-color:var(--ok);color:#fff}
+.alert{background:#fdecea;border:1.5px solid #f5b7b1;border-radius:16px;padding:12px 14px}
+.alert li{margin:3px 0}
+.item{padding:10px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.past{opacity:.5}
+.tag{font-size:13px;background:var(--rose);color:var(--plum-d);border-radius:8px;padding:2px 8px;font-weight:700}
+nav{position:fixed;bottom:0;right:0;left:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:10}
+nav button{background:none;color:var(--muted);flex-direction:column;font-size:13px;padding:4px 6px;gap:0;flex:1}
+nav button span{font-size:24px;line-height:1.2}
+nav button.on{color:var(--plum)}
+.tab{display:none}.tab.on{display:block}
+.counter{width:180px;height:180px;border-radius:50%;font-size:56px;margin:12px auto;display:flex;flex-direction:column}
+.counter small{font-size:16px;font-weight:600}
+.center{text-align:center}
+.fruit{font-size:46px}
+.modal{position:fixed;inset:0;background:rgba(45,31,39,.5);display:none;align-items:flex-end;z-index:20}
+.modal.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:640px;margin:auto;border-radius:24px 24px 0 0;padding:18px;max-height:90vh;overflow:auto}
+.toast{position:fixed;top:14px;right:14px;left:14px;background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;z-index:30;text-align:center;display:none}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td,th{padding:6px;border-bottom:1px solid var(--line);text-align:right}
+/* الهيدر بصورة الدكتور */
+header{display:flex;align-items:center;gap:14px}
+.av{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.85);flex:none;background:var(--rose)}
+.av-s{width:38px;height:38px;border-width:2px;border-color:var(--rose)}
+/* قراءة الروشتة */
+.rx{border:1.5px solid var(--line);border-radius:16px;padding:12px;margin-bottom:12px}
+.rx.off{opacity:.45}
+.rxh{display:flex;align-items:center;gap:10px;margin:0;font-size:18px}
+.rxh input{width:24px;height:24px;flex:none}
+.rx label{font-size:15px;margin:8px 0 2px}
+.rx input,.rx select{font-size:17px;padding:8px 10px}
+.unc{background:#fff6d6 !important;border-color:#e6b800 !important}
+.legend{display:inline-block;background:#fff6d6;border:1.5px solid #e6b800;border-radius:6px;padding:0 6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spin{width:44px;height:44px;border:5px solid var(--rose);border-top-color:var(--plum);border-radius:50%;animation:sp 1s linear infinite;margin:16px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* قياساتي */
+.hi{color:var(--warn);font-weight:800}
+.alert.urgent{background:#c0392b;color:#fff;border-color:#922b21}
+/* البوت */
+.seg{display:flex;background:var(--rose);border-radius:14px;padding:4px;gap:4px;margin-top:10px}
+.seg button{flex:1;background:none;color:var(--plum-d);padding:8px}
+.seg button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+#chatLog{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.msg{display:flex;gap:8px;align-items:flex-start}
+.msg.me{flex-direction:row-reverse}
+.bub{background:#fff;border:1px solid var(--line);border-radius:18px;border-top-right-radius:6px;padding:10px 14px;max-width:85%;box-shadow:0 1px 6px rgba(142,59,100,.06)}
+.msg.me .bub{background:var(--plum);color:#fff;border-color:var(--plum);border-radius:18px;border-top-left-radius:6px}
+.bub p{margin:4px 0}
+.bub .q{font-weight:800;color:var(--plum-d)}
+.bub.em{background:#fdecea;border-color:#f5b7b1}
+.draft{display:inline-block;font-size:12px;font-weight:700;background:#fff6d6;color:#7a5c00;border:1px solid #e6b800;border-radius:8px;padding:1px 8px;margin-top:4px}
+.askbar{display:flex;gap:8px;align-items:flex-end;position:sticky;bottom:80px;background:var(--rose2);padding:8px 0}
+.askbar textarea{resize:none;min-height:50px}
+.dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);margin:0 2px;animation:dt 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes dt{0%,80%,100%{opacity:.25}40%{opacity:1}}
+details.cat{border-bottom:1px solid var(--line);padding:6px 0}
+details.cat>summary{font-weight:800;font-size:18px;cursor:pointer;padding:6px 0;color:var(--plum-d)}
+details.qa{margin:4px 0;background:var(--rose2);border-radius:12px;padding:6px 12px}
+details.qa>summary{cursor:pointer;font-weight:700}
+details.qa p{margin:6px 0}
+/* التقرير (بيتعمل بره الشاشة ويتحوّل PDF) */
+#report{position:fixed;top:0;left:-10000px;width:794px;background:#fff;color:#222;font-family:'Cairo',sans-serif;font-size:15px;line-height:1.6;direction:rtl;padding:36px 42px}
+#report .rh{display:flex;align-items:center;gap:18px;border-bottom:4px solid var(--plum);padding-bottom:14px;margin-bottom:16px}
+#report .rh img{width:92px;height:92px;border-radius:50%;object-fit:cover;border:3px solid var(--rose)}
+#report .rh h1{margin:0;font-size:26px;color:var(--plum-d)}
+#report .rh .sub{color:#666;font-size:14px}
+#report .rt{margin-inline-start:auto;text-align:left;font-size:14px;color:#444}
+#report .rt b{display:block;font-size:19px;color:var(--plum)}
+#report .blk{margin-bottom:14px}
+#report h2{font-size:17px;background:var(--rose);color:var(--plum-d);padding:4px 12px;border-radius:8px;margin:0 0 6px}
+#report table{font-size:14px}
+#report th{background:#faf3f6;color:var(--plum-d)}
+#report .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+#report .grid div{border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+#report .grid small{display:block;color:#777;font-size:12px}
+#report .grid b{font-size:17px}
+#report .none{color:#888;font-size:14px;margin:2px 4px}
+#report .qs{white-space:pre-wrap;border:1px dashed var(--plum);border-radius:10px;padding:8px 12px;min-height:40px}
+#report .foot{border-top:1px solid var(--line);padding-top:8px;margin-top:18px;color:#888;font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+  <img class="av" src="doctor.jpg" alt="">
+  <div>
+    <p class="dr" id="drName"></p>
+    <p class="sp" id="drTitle"></p>
+  </div>
+</header>
+
+<main>
+<!-- ================= الرئيسية ================= -->
+<section class="tab on" id="t-home">
+  <div class="card" id="setupCard" style="display:none">
+    <h2>أهلاً بيكي 🌸</h2>
+    <p class="muted">علشان نتابع حملك أسبوع بأسبوع، اكتبي اسمك وتاريخ أول يوم في آخر دورة (أو موعد الولادة المتوقع لو الدكتور قالهولك).</p>
+    <label>اسمك</label>
+    <input id="pName" placeholder="مثال: سارة أحمد">
+    <label>إزاي نحسب؟</label>
+    <select id="pMode">
+      <option value="lmp">أول يوم في آخر دورة</option>
+      <option value="edd">موعد الولادة المتوقع (من الدكتور أو السونار)</option>
+    </select>
+    <label id="pDateLbl">التاريخ</label>
+    <input type="date" id="pDate">
+    <label>فصيلة الدم (اختياري)</label>
+    <select id="pRh">
+      <option value="">مش عارفة</option>
+      <option value="pos">موجب (+)</option>
+      <option value="neg">سالب (−)</option>
+    </select>
+    <br>
+    <button class="full" onclick="saveProfile()">ابدئي المتابعة</button>
+  </div>
+
+  <div id="homeMain" style="display:none">
+    <div class="card">
+      <div class="row between">
+        <div>
+          <div class="muted" id="hello"></div>
+          <div class="big" id="weekBig"></div>
+          <div class="muted" id="triText"></div>
+        </div>
+        <div class="center"><div class="fruit" id="fruitEmoji"></div><div class="muted" id="fruitText" style="max-width:120px"></div></div>
+      </div>
+      <div class="bar"><div id="progBar"></div></div>
+      <div class="row between muted">
+        <span id="eddText"></span><span id="leftText"></span>
+      </div>
+    </div>
+
+    <div id="homeBp"></div>
+
+    <div class="card">
+      <h2>💊 أدوية النهارده</h2>
+      <div id="todayDoses"></div>
+    </div>
+
+    <div class="card" id="nextApptCard">
+      <h2>📅 الموعد الجاي</h2>
+      <div id="nextAppt"></div>
+    </div>
+
+    <div class="card">
+      <h2>💡 نصايح الأسبوع ده</h2>
+      <ul id="tipsList" style="margin:0;padding-inline-start:20px"></ul>
+      <p class="muted" style="margin-bottom:0">نصايح عامة — تعليمات د. مجدي ليكي هي الأساس دايمًا.</p>
+    </div>
+
+    <div class="alert">
+      <b>🚨 كلّمي العيادة أو روحي الطوارئ فورًا لو حصل:</b>
+      <ul style="margin:6px 0 0;padding-inline-start:20px">
+        <li>نزيف من المهبل</li>
+        <li>نزول مية أو سوائل</li>
+        <li>ألم شديد في البطن أو مغص مستمر</li>
+        <li>صداع شديد، زغللة، أو تورم مفاجئ في الوش والإيدين</li>
+        <li>قلة أو توقف حركة الجنين (بعد الأسبوع 28)</li>
+        <li>سخونية عالية أو ترجيع مستمر</li>
+      </ul>
+      <div class="row" style="margin-top:10px">
+        <a class="btn btn-warn" id="emCall">📞 اتصال بالعيادة</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= الأدوية ================= -->
+<section class="tab" id="t-meds">
+  <div class="card">
+    <div class="row between"><h2 style="margin:0">💊 أدويتي</h2><button class="btn-sm" onclick="openMed()">+ إضافة</button></div>
+    <p class="muted">اكتبي الأدوية والفيتامينات زي ما د. مجدي كتبهالك بالظبط، ومواعيدها.</p>
+    <div class="row" style="margin-bottom:6px">
+      <button style="flex:1" onclick="pickRx('prescription')">📷 صوّري الروشتة</button>
+      <button class="btn2" style="flex:1" onclick="pickRx('box')">📦 علبة دوا</button>
+      <input type="file" id="rxFile" accept="image/*" style="display:none">
+    </div>
+    <div id="medList"></div>
+  </div>
+  <div class="card">
+    <h2>🔔 التنبيهات</h2>
+    <p class="muted">علشان التنبيه يرن حتى والتطبيق مقفول، دوسي «أضيفي للتقويم» جنب كل ميعاد — هيتسجل في تقويم الموبايل ويرن كل يوم.</p>
+    <button class="btn2 full" onclick="askNotif()">تفعيل تنبيهات التطبيق</button>
+  </div>
+</section>
+
+<!-- ================= المواعيد ================= -->
+<section class="tab" id="t-appts">
+  <div class="card">
+    <div class="row between"><h2 style="margin:0">📅 مواعيدي</h2><button class="btn-sm" onclick="openAppt()">+ موعد</button></div>
+    <div id="apptList" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <h2>🗓️ جدول المتابعة المقترح</h2>
+    <p class="muted">جدول عام محسوب من عمر الحمل. المواعيد الفعلية بيحددها د. مجدي — دوسي «احجزي» علشان تكلمي العيادة.</p>
+    <div id="planList"></div>
+  </div>
+</section>
+
+<!-- ================= أدوات ================= -->
+<section class="tab" id="t-tools">
+  <div class="card" id="vitalsCard">
+    <h2>📊 قياساتي</h2>
+    <p class="muted" style="margin-top:0">سجّلي الضغط أو الوزن أو السكر — مش لازم الكل مع بعض.</p>
+    <label>التاريخ</label>
+    <input type="date" id="vDate">
+    <label>الضغط (العالي / الواطي)</label>
+    <div class="two">
+      <input type="number" inputmode="numeric" id="vSys" placeholder="العالي مثلًا 120">
+      <input type="number" inputmode="numeric" id="vDia" placeholder="الواطي مثلًا 80">
+    </div>
+    <div class="two">
+      <div><label>الوزن (كجم)</label><input type="number" inputmode="decimal" step="0.1" id="vWt" placeholder="مثلًا 68.5"></div>
+      <div><label>السكر (mg/dL)</label><input type="number" inputmode="numeric" id="vSug" placeholder="مثلًا 95"></div>
+    </div>
+    <label>نوع قياس السكر</label>
+    <select id="vSugT">
+      <option value="fasting">صايمة</option>
+      <option value="post">بعد الأكل بساعتين</option>
+      <option value="random">عشوائي</option>
+    </select>
+    <br><br>
+    <button class="full" onclick="saveVital()">حفظ القياس</button>
+    <div id="vAlert" style="margin-top:10px"></div>
+    <div id="vHist" style="margin-top:10px"></div>
+  </div>
+
+  <div class="card center">
+    <h2>👶 عدّاد حركة الجنين</h2>
+    <p class="muted">بعد الأسبوع 28: اقعدي أو نامي على جنبك الشمال، ودوسي مع كل حركة. المعتاد 10 حركات خلال ساعتين.</p>
+    <button class="counter" id="kickBtn" onclick="kick()">0<small>دوسي مع كل حركة</small></button>
+    <div class="muted" id="kickInfo">لسه ما بدأتيش</div>
+    <div class="row" style="justify-content:center;margin-top:8px">
+      <button class="btn2 btn-sm" onclick="endKicks()">إنهاء وحفظ</button>
+    </div>
+    <div id="kickHist" style="margin-top:10px"></div>
+  </div>
+
+  <div class="card center">
+    <h2>⏱️ مؤقّت الانقباضات</h2>
+    <p class="muted">دوسي «بدأت» أول ما الانقباضة تبدأ و«خلصت» لما تخلص.</p>
+    <button class="counter" id="ctBtn" onclick="toggleCt()">▶<small>بدأت</small></button>
+    <div id="ctSummary" class="muted"></div>
+    <div id="ctAlert"></div>
+    <div id="ctHist" style="margin-top:10px"></div>
+    <button class="btn2 btn-sm" onclick="clearCt()" style="margin-top:8px">مسح الجلسة</button>
+  </div>
+
+  <div class="card">
+    <h2>🧳 شنطة الولادة</h2>
+    <div id="bagList"></div>
+  </div>
+</section>
+
+<!-- ================= اسألي د. مجدي ================= -->
+<section class="tab" id="t-ask">
+  <div class="card">
+    <div class="row" style="flex-wrap:nowrap">
+      <img class="av av-s" src="doctor.jpg" alt="" style="width:52px;height:52px">
+      <div><h2 style="margin:0">اسألي د. مجدي</h2><div class="muted">إجابات عامة على الأسئلة الشائعة — مش بديل عن الكشف.</div></div>
+    </div>
+    <div class="seg">
+      <button class="on" id="segChat" onclick="askMode('chat')">💬 اسألي</button>
+      <button id="segBrowse" onclick="askMode('browse')">📚 كل الأسئلة</button>
+    </div>
+  </div>
+
+  <div id="askChat">
+    <div id="chatLog"></div>
+    <div id="askSug"></div>
+    <div class="askbar">
+      <textarea id="askIn" rows="1" placeholder="اكتبي سؤالك هنا…"></textarea>
+      <button onclick="ask()" aria-label="إرسال">إرسال</button>
+    </div>
+  </div>
+
+  <div id="askBrowse" style="display:none">
+    <div class="card">
+      <input id="faqSearch" type="search" placeholder="🔎 دوّري في الأسئلة…">
+      <div id="faqList" style="margin-top:8px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= العيادة ================= -->
+<section class="tab" id="t-clinic">
+  <div class="card">
+    <h2>🏥 العيادة</h2>
+    <p id="clAddr"></p>
+    <p class="muted" id="clHours"></p>
+    <div class="row">
+      <a class="btn" id="clCall">📞 اتصال</a>
+      <a class="btn btn-ok" id="clWa" target="_blank">💬 واتساب</a>
+      <a class="btn btn2" id="clMap" target="_blank">📍 اللوكيشن</a>
+    </div>
+  </div>
+  <div class="card">
+    <h2>📄 تقرير للدكتور</h2>
+    <p class="muted" style="margin-top:0">ملف PDF فيه بيانات الحمل وأدويتك والتزامك بيها وقياساتك وحركة البيبي ومواعيدك — تبعتيه للعيادة على واتساب.</p>
+    <label>❓ أسئلة للدكتور</label>
+    <textarea id="drQs" rows="4" placeholder="اكتبي أي حاجة عايزة تسألي د. مجدي عنها…"></textarea>
+    <br><br>
+    <button class="full" id="repBtn" onclick="makeReport()">📄 تقرير للدكتور</button>
+  </div>
+  <div class="card">
+    <h2>📝 طلب حجز</h2>
+    <p class="muted">هتتبعت رسالة واتساب للعيادة فيها بياناتك وعمر الحمل.</p>
+    <label>سبب الزيارة</label>
+    <select id="bkReason">
+      <option>متابعة حمل</option><option>سونار</option><option>عرض تحاليل</option><option>استشارة</option><option>كشف بعد الولادة</option>
+    </select>
+    <label>اليوم المناسب</label>
+    <input type="date" id="bkDate">
+    <label>ملاحظة (اختياري)</label>
+    <textarea id="bkNote" rows="2"></textarea><br><br>
+    <button class="btn-ok full" onclick="sendBooking()">إرسال طلب الحجز على واتساب</button>
+  </div>
+  <div class="card">
+    <h2>⚙️ بياناتي</h2>
+    <div id="myData" class="muted"></div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn2 btn-sm" onclick="editProfile()">تعديل بيانات الحمل</button>
+      <button class="btn2 btn-sm" onclick="exportData()">نسخة احتياطية</button>
+      <button class="btn2 btn-sm" onclick="document.getElementById('impFile').click()">استرجاع</button>
+      <input type="file" id="impFile" accept=".json" style="display:none" onchange="importData(this)">
+    </div>
+    <p class="muted" style="margin-bottom:0">🔒 بياناتك محفوظة على موبايلك بس — مش بتتبعت لأي حد.</p>
+  </div>
+</section>
+</main>
+
+<nav>
+  <button class="on" data-t="home"><span>🏠</span>الرئيسية</button>
+  <button data-t="meds"><span>💊</span>أدويتي</button>
+  <button data-t="appts"><span>📅</span>مواعيدي</button>
+  <button data-t="tools"><span>👶</span>أدوات</button>
+  <button data-t="ask"><span>💬</span>اسألي</button>
+  <button data-t="clinic"><span>🏥</span>العيادة</button>
+</nav>
+
+<!-- نافذة دواء -->
+<div class="modal" id="medModal"><div class="sheet">
+  <h2 id="medTitle">إضافة دواء</h2>
+  <div>
+    <span class="chip" onclick="qm('حمض الفوليك')">حمض الفوليك</span>
+    <span class="chip" onclick="qm('حديد')">حديد</span>
+    <span class="chip" onclick="qm('كالسيوم')">كالسيوم</span>
+    <span class="chip" onclick="qm('أوميجا 3')">أوميجا 3</span>
+    <span class="chip" onclick="qm('فيتامين د')">فيتامين د</span>
+    <span class="chip" onclick="qm('مثبت حمل')">مثبت حمل</span>
+  </div>
+  <label>اسم الدواء</label>
+  <input id="mName">
+  <label>الجرعة / طريقة الاستخدام (زي ما في الروشتة)</label>
+  <input id="mNote" placeholder="مثال: قرص بعد الفطار">
+  <label>المواعيد</label>
+  <div id="mTimes"></div>
+  <button class="btn2 btn-sm" onclick="addTimeInput()">+ ميعاد تاني</button>
+  <br><br>
+  <div class="row">
+    <button onclick="saveMed()" style="flex:1">حفظ</button>
+    <button class="btn2" onclick="closeM('medModal')">إلغاء</button>
+  </div>
+  <input type="hidden" id="mId">
+</div></div>
+
+<!-- نافذة موعد -->
+<div class="modal" id="apptModal"><div class="sheet">
+  <h2>إضافة موعد</h2>
+  <label>نوع الموعد</label>
+  <input id="aTitle" list="apptTypes" placeholder="متابعة / سونار / تحاليل">
+  <datalist id="apptTypes"><option>متابعة مع د. مجدي</option><option>سونار</option><option>تحاليل</option><option>منحنى السكر</option></datalist>
+  <label>التاريخ</label><input type="date" id="aDate">
+  <label>الساعة</label><input type="time" id="aTime" value="18:00">
+  <label>ملاحظة</label><input id="aNote">
+  <br><br>
+  <div class="row">
+    <button onclick="saveAppt()" style="flex:1">حفظ</button>
+    <button class="btn2" onclick="closeM('apptModal')">إلغاء</button>
+  </div>
+</div></div>
+
+<!-- نافذة مراجعة الروشتة -->
+<div class="modal" id="rxModal"><div class="sheet">
+  <h2>📷 مراجعة الروشتة</h2>
+  <div id="rxBody"></div>
+</div></div>
+
+<div id="report" aria-hidden="true"></div>
+
+<div class="toast" id="toast"></div>
+<script src="faq.js"></script>
+
+<script>
+/* =========================================================
+   ⚙️ بيانات العيادة — غيّر القيم دي بس
+   ========================================================= */
+const CLINIC = {
+  doctor:   "د. مجدي إسماعيل",
+  title:    "استشاري أمراض النساء والتوليد",
+  phone:    "01222332307",        // رقم العيادة للاتصال
+  whatsapp: "201222332307",       // رقم الواتساب بصيغة دولية بدون +
+  address:  "",                   // عنوان العيادة (فاضي = مش بيظهر)
+  hours:    "",                   // مثال: "مواعيد العيادة: يوميًا من 6 إلى 10 مساءً ما عدا الجمعة"
+  map:      "",                   // لينك اللوكيشن من Google Maps (فاضي = الزرار مش بيظهر)
+
+  // خدمة قراءة الروشتة وبوت الأسئلة (Cloudflare Worker) — سيبهم فاضيين لو مش عايز الخدمة
+  reader:   "https://dawaya-reader.elhamoly27.workers.dev",  // رابط الخدمة من غير / في الآخر
+  token:    "",                     // بيتحط وقت البناء من secret اسمه APP_TOKEN
+};
+/* ========================================================= */
+
+/* ---------- جوه تطبيق الأندرويد (APK) ----------
+   التطبيق بيحط قناة اسمها DrMagdy: بنكلّم الخدمة والواتساب والمشاركة من خلالها. */
+const NATIVE = typeof window.DrMagdy !== "undefined";
+const _nat = {}; let _natId = 0;
+function native(type, data){ return new Promise(ok=>{ const id=++_natId; _nat[id]=ok; window.DrMagdy.postMessage(JSON.stringify(Object.assign({id,type},data||{}))); }); }
+window.__nativeReply = (id,res)=>{ const f=_nat[id]; delete _nat[id]; if(f) f(res); };
+// طلب POST للخدمة: جوه التطبيق بيروح من الأندرويد نفسه (من غير قيود المتصفح)
+async function postJSON(url, headers, body, timeoutMs){
+  if(NATIVE){
+    const r = await native("post",{url, headers, body:JSON.stringify(body), timeout:timeoutMs});
+    if(!r || !r.status) { const e=new Error(r&&r.error||"net"); e.name=/timeout/i.test(r&&r.error||"")?"AbortError":"NetError"; throw e; }
+    let data={}; try{ data=JSON.parse(r.body); }catch(e){}
+    return {ok:r.status>=200&&r.status<300, status:r.status, data};
+  }
+  const ctl=new AbortController(), tm=setTimeout(()=>ctl.abort(),timeoutMs);
+  try{
+    const res=await fetch(url,{method:"POST",signal:ctl.signal,headers:Object.assign({"content-type":"application/json"},headers),body:JSON.stringify(body)});
+    const data=await res.json().catch(()=>({}));
+    return {ok:res.ok, status:res.status, data};
+  } finally { clearTimeout(tm); }
+}
+function openExt(url){ if(NATIVE) native("open",{url}); else window.open(url,"_blank"); }
+// مشاركة ملف (التقرير / النسخة الاحتياطية) — جوه التطبيق بتفتح قايمة المشاركة (واتساب…)
+function shareFile(name, mime, b64, text){ return native("share",{name, mime, b64, text}); }
+// جوه التطبيق: أي لينك بره (واتساب، اتصال، تقويم، خريطة) يتفتح في تطبيقه
+if(NATIVE) document.addEventListener("click",e=>{
+  const a=e.target.closest && e.target.closest("a[href]"); if(!a) return;
+  const h=a.getAttribute("href")||""; if(!h || h[0]==="#" || h.startsWith("javascript") || a.hasAttribute("download")) return;
+  e.preventDefault(); openExt(a.href);
+},true);
+function blobToB64(blob){ return new Promise(ok=>{ const r=new FileReader(); r.onload=()=>ok(String(r.result).split(",")[1]); r.readAsDataURL(blob); }); }
+
+const KEY = "drmagdy_app_v1";
+let S = load();
+function blank(){ return {profile:null, meds:[], taken:{}, appts:[], kicks:[], ct:[], bag:{}, vitals:[], questions:""}; }
+function load(){
+  try{ const d = JSON.parse(localStorage.getItem(KEY)); if(d) return Object.assign(blank(), d); }catch(e){}
+  return blank();
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast("مش قادر أحفظ على الجهاز ده"); } }
+const $ = id => document.getElementById(id);
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const DAY = 86400000;
+function toast(m){ const t=$("toast"); t.textContent=m; t.style.display="block"; clearTimeout(t._h); t._h=setTimeout(()=>t.style.display="none",2600); }
+function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function parseD(s){ const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); }
+function fmtD(d){ return d.toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long"}); }
+function fmtT(t){ const [h,m]=t.split(":").map(Number); const p=h<12?"ص":"م"; const hh=h%12||12; return hh+":"+String(m).padStart(2,"0")+" "+p; }
+// الملاحظة فيها عربي وإنجليزي (5 mg • 1 tab • بعد الأكل) — كل جزء في <bdi> علشان الترتيب ما يتلخبطش
+function noteHtml(n){ return String(n||"").split(" • ").map(x=>"<bdi>"+esc(x)+"</bdi>").join(" • "); }
+function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function today0(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
+
+/* ---------- بيانات العيادة في الواجهة ---------- */
+$("drName").textContent = CLINIC.doctor;
+$("drTitle").textContent = CLINIC.title;
+$("clAddr").textContent = CLINIC.address ? "📍 " + CLINIC.address : "";
+$("clHours").textContent = CLINIC.hours;
+if(!CLINIC.address) $("clAddr").style.display="none";
+$("clCall").href = $("emCall").href = "tel:" + CLINIC.phone;
+$("clWa").href = "https://wa.me/" + CLINIC.whatsapp;
+if(CLINIC.map) $("clMap").href = CLINIC.map; else $("clMap").style.display="none";
+
+/* ---------- التنقل ---------- */
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.t));
+function go(t){
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+  document.querySelectorAll(".tab").forEach(s=>s.classList.toggle("on",s.id==="t-"+t));
+  window.scrollTo(0,0); render();
+  if(t==="ask") initChat();
+}
+
+/* ---------- الحمل ---------- */
+const SIZES = {4:["🌱","بذرة صغيرة"],5:["🌱","بذرة سمسم"],6:["🫘","حباية عدس"],7:["🫐","توتة"],8:["🫘","حباية فول"],9:["🍇","حباية عنب"],10:["🌰","بلحة"],11:["🍈","تينة"],12:["🍋","ليمونة"],13:["🍋","ليمونة كبيرة"],14:["🍑","خوخة"],15:["🍎","تفاحة"],16:["🥑","أفوكادو"],17:["🍐","كمترى"],18:["🫑","فلفل رومي"],19:["🍅","طماطماية"],20:["🍌","موزة"],21:["🥕","جزرة"],22:["🥭","مانجاية"],23:["🥭","مانجاية كبيرة"],24:["🌽","كوز درة"],25:["🥦","قرنبيط صغير"],26:["🥬","خسة"],27:["🥦","قرنبيط"],28:["🍆","باذنجانة"],29:["🎃","قرعة صغيرة"],30:["🥬","كرنبة"],31:["🥥","جوز هند"],32:["🍠","قرعاية"],33:["🍍","أناناس"],34:["🍈","كانتلوب"],35:["🍈","شمامة"],36:["🥬","خسة كبيرة"],37:["🍉","بطيخة صغيرة"],38:["🍉","بطيخة صغيرة"],39:["🍉","بطيخة"],40:["🍉","بطيخة"]};
+const TIPS = [
+  {to:12, t:["خدي حمض الفوليك بانتظام حسب تعليمات الدكتور.","الغثيان: وجبات صغيرة كل كام ساعة، ونشويات ناشفة الصبح.","ما تاخديش أي دوا أو مسكن من غير ما تسألي الدكتور.","أول زيارة وتحاليل الحمل الأولية مهمة جدًا.","اشربي مية كتير وابعدي عن التدخين والمدخنين."]},
+  {to:20, t:["سونار الأسبوع 12 وسونار التشوهات (18–22) من أهم مواعيدك.","ممكن تبدأي تحسي حركة البيبي ما بين الأسبوع 18 و22.","الحديد والكالسيوم: ما تاخديهمش مع بعض في نفس الوقت إلا لو الدكتور قال.","مشي خفيف يوميًا مفيد لو الدكتور موافق."]},
+  {to:27, t:["تحليل السكر (منحنى السكر) غالبًا بين الأسبوع 24 و28.","قللي السكريات والملح، وكُلي خضار وبروتين.","لو فصيلتك سالبة اسألي الدكتور عن حقنة Anti-D.","نامي على جنبك الشمال ورجليكي مرفوعة شوية لو فيه تورم."]},
+  {to:36, t:["ابدئي تعدّي حركة الجنين يوميًا من تبويب «أدوات».","تابعي الضغط — الصداع الشديد أو التورم المفاجئ يستاهل اتصال فوري.","حضّري شنطة الولادة من دلوقتي.","الزيارات بتبقى كل أسبوعين تقريبًا."]},
+  {to:45, t:["علامات الولادة: انقباضات منتظمة، نزول مية، أو إفرازات بدم.","استخدمي مؤقّت الانقباضات لما تبدأ.","خلّي شنطة الولادة والأوراق جاهزين جنب الباب.","الزيارات بتبقى أسبوعية لحد الولادة."]}
+];
+function preg(){
+  if(!S.profile) return null;
+  const edd = parseD(S.profile.edd);
+  const lmp = new Date(edd.getTime() - 280*DAY);
+  const days = Math.floor((today0() - lmp)/DAY);
+  const w = Math.floor(days/7), d = days%7;
+  return {edd, lmp, days, w, d, left: Math.ceil((edd - today0())/DAY)};
+}
+function saveProfile(){
+  const name=$("pName").value.trim(), mode=$("pMode").value, dt=$("pDate").value;
+  if(!dt){ toast("اختاري التاريخ"); return; }
+  let edd = parseD(dt);
+  if(mode==="lmp") edd = new Date(edd.getTime()+280*DAY);
+  const ga = Math.floor((today0() - (edd.getTime()-280*DAY))/DAY);
+  if(ga<0 || ga>310){ toast("التاريخ ده مش منطقي، راجعيه"); return; }
+  S.profile = {name, edd: ymd(edd), rh: $("pRh").value};
+  editing=false; save(); render(); toast("تمام! بدأنا المتابعة 🌸");
+}
+let editing=false;
+function editProfile(){ if(S.profile){ $("pName").value=S.profile.name; $("pMode").value="edd"; $("pDateLbl").textContent="موعد الولادة المتوقع"; $("pDate").value=S.profile.edd; $("pRh").value=S.profile.rh||""; } editing=true; go("home"); }
+$("pMode").onchange=()=>$("pDateLbl").textContent = $("pMode").value==="lmp"?"تاريخ أول يوم في آخر دورة":"موعد الولادة المتوقع";
+
+/* ---------- الأدوية ---------- */
+function openMed(id){
+  const m = S.meds.find(x=>x.id===id);
+  $("medTitle").textContent = m?"تعديل دواء":"إضافة دواء";
+  $("mId").value = m?m.id:""; $("mName").value=m?m.name:""; $("mNote").value=m?m.note:"";
+  $("mTimes").innerHTML=""; (m?m.times:["09:00"]).forEach(addTimeInput);
+  $("medModal").classList.add("on");
+}
+function qm(n){ $("mName").value=n; }
+function addTimeInput(v){
+  const w=document.createElement("div"); w.className="row"; w.style.marginBottom="6px";
+  w.innerHTML='<input type="time" value="'+(typeof v==="string"?v:"21:00")+'" style="flex:1"><button class="btn2 btn-sm" onclick="this.parentNode.remove()">✕</button>';
+  $("mTimes").appendChild(w);
+}
+function saveMed(){
+  const name=$("mName").value.trim(); if(!name){ toast("اكتبي اسم الدواء"); return; }
+  const times=[...$("mTimes").querySelectorAll("input")].map(i=>i.value).filter(Boolean).sort();
+  if(!times.length){ toast("حطي ميعاد واحد على الأقل"); return; }
+  const id=$("mId").value;
+  if(id){ Object.assign(S.meds.find(x=>x.id===id),{name,note:$("mNote").value.trim(),times}); }
+  else S.meds.push({id:uid(),name,note:$("mNote").value.trim(),times,added:ymd(new Date())});
+  save(); closeM("medModal"); render(); toast("اتحفظ ✓");
+}
+function delMed(id){ if(confirmDel(id)){ S.meds=S.meds.filter(x=>x.id!==id); save(); render(); } }
+let _delArm=0, _delWhat=null;
+function confirmDel(what){ if(Date.now()-_delArm<3000 && _delWhat===what){ _delArm=0; return true; } _delArm=Date.now(); _delWhat=what; toast("دوسي «مسح» تاني للتأكيد"); return false; }
+function toggleDose(k){ const t=ymd(new Date()); S.taken[t]=S.taken[t]||{}; S.taken[t][k]=!S.taken[t][k]; save(); render(); }
+function gcalDaily(name,note,time){
+  const [h,m]=time.split(":"); const d=ymd(new Date()).replace(/-/g,"");
+  const st=d+"T"+h+m+"00", en=d+"T"+h+String(Math.min(+m+10,59)).padStart(2,"0")+"00";
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent("💊 "+name)+"&details="+encodeURIComponent(note||"")+"&dates="+st+"/"+en+"&recur="+encodeURIComponent("RRULE:FREQ=DAILY")+"&ctz=Africa/Cairo";
+}
+function gcalOnce(title,date,time,note){
+  const d=date.replace(/-/g,""), [h,m]=(time||"18:00").split(":");
+  const st=d+"T"+h+m+"00", en=d+"T"+String(Math.min(+h+1,23)).padStart(2,"0")+m+"00";
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(title+" — "+CLINIC.doctor)+"&details="+encodeURIComponent((note||"")+(CLINIC.address?"\n"+CLINIC.address:""))+"&dates="+st+"/"+en+"&ctz=Africa/Cairo";
+}
+
+/* ---------- المواعيد ---------- */
+function openAppt(title,date){ $("aTitle").value=title||""; $("aDate").value=date||ymd(new Date()); $("aNote").value=""; $("apptModal").classList.add("on"); }
+function saveAppt(){
+  const title=$("aTitle").value.trim()||"متابعة", date=$("aDate").value; if(!date){toast("اختاري التاريخ");return;}
+  S.appts.push({id:uid(),title,date,time:$("aTime").value,note:$("aNote").value.trim()});
+  S.appts.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  save(); closeM("apptModal"); render(); toast("الموعد اتسجل ✓");
+}
+function delAppt(id){ if(confirmDel(id)){ S.appts=S.appts.filter(x=>x.id!==id); save(); render(); } }
+function plan(p){
+  const L=[[9,"الزيارة الأولى + تحاليل الحمل الأولية"],[12,"سونار الأسبوع 12 (الشفافية القفوية)"],[16,"متابعة"],[20,"سونار التشوهات التفصيلي"],[26,"منحنى السكر + صورة دم"],[28,"متابعة"+(S.profile.rh==="neg"?" + حقنة Anti-D (فصيلة سالبة)":"")],[32,"متابعة + سونار نمو"],[34,"متابعة"],[36,"متابعة + تحديد خطة الولادة"],[37,"متابعة أسبوعية"],[38,"متابعة أسبوعية"],[39,"متابعة أسبوعية"],[40,"متابعة — موعد الولادة المتوقع"]];
+  return L.map(([w,t])=>({w,t,date:new Date(p.lmp.getTime()+w*7*DAY)}));
+}
+
+/* ---------- عداد الحركة ---------- */
+let K=null;
+function kick(){
+  if(!K) K={start:Date.now(),count:0};
+  K.count++; if(navigator.vibrate) navigator.vibrate(40);
+  if(K.count===10){ toast("10 حركات ✓ ممتاز!"); }
+  renderKick();
+}
+function endKicks(){ if(!K||!K.count) return; S.kicks.unshift({start:K.start,end:Date.now(),count:K.count}); S.kicks=S.kicks.slice(0,20); K=null; save(); renderKick(); toast("اتحفظت الجلسة"); }
+function renderKick(){
+  $("kickBtn").innerHTML=(K?K.count:0)+"<small>دوسي مع كل حركة</small>";
+  if(K){ const mins=Math.floor((Date.now()-K.start)/60000); $("kickInfo").textContent="بدأتي من "+mins+" دقيقة"+(mins>=120&&K.count<10?" — ⚠️ أقل من 10 حركات في ساعتين: كلّمي العيادة":""); }
+  else $("kickInfo").textContent="لسه ما بدأتيش";
+  $("kickHist").innerHTML = S.kicks.length? "<table><tr><th>اليوم</th><th>الحركات</th><th>المدة</th></tr>"+S.kicks.slice(0,7).map(k=>"<tr><td>"+new Date(k.start).toLocaleDateString("ar-EG",{weekday:"short",day:"numeric",month:"short"})+"</td><td>"+k.count+"</td><td>"+Math.max(1,Math.round((k.end-k.start)/60000))+" د</td></tr>").join("")+"</table>":"";
+}
+
+/* ---------- مؤقت الانقباضات ---------- */
+let CT=null;
+function toggleCt(){
+  if(!CT){ CT=Date.now(); }
+  else { S.ct.push({s:CT,e:Date.now()}); CT=null; S.ct=S.ct.slice(-30); save(); }
+  renderCt();
+}
+function clearCt(){ if(confirmDel("ct")){ S.ct=[]; CT=null; save(); renderCt(); } }
+function renderCt(){
+  $("ctBtn").innerHTML = CT? "■<small>خلصت</small>" : "▶<small>بدأت</small>";
+  $("ctBtn").style.background = CT? "var(--warn)":"";
+  const c=S.ct; let html="", alert="";
+  if(c.length){
+    const last=c.slice(-6).reverse();
+    html="<table><tr><th>الوقت</th><th>المدة</th><th>الفاصل</th></tr>"+last.map((x)=>{const i=c.indexOf(x);const gap=i>0?Math.round((x.s-c[i-1].s)/60000)+" د":"—";return "<tr><td>"+new Date(x.s).toLocaleTimeString("ar-EG",{hour:"numeric",minute:"2-digit"})+"</td><td>"+Math.round((x.e-x.s)/1000)+" ث</td><td>"+gap+"</td></tr>";}).join("")+"</table>";
+    if(c.length>=4){
+      const r=c.slice(-4); let gaps=[],durs=r.map(x=>(x.e-x.s)/1000);
+      for(let i=1;i<r.length;i++) gaps.push((r[i].s-r[i-1].s)/60000);
+      const ag=gaps.reduce((a,b)=>a+b)/gaps.length, ad=durs.reduce((a,b)=>a+b)/durs.length;
+      $("ctSummary").textContent="متوسط الفاصل "+ag.toFixed(1)+" دقيقة، ومتوسط المدة "+Math.round(ad)+" ثانية";
+      if(ag<=5 && ad>=45) alert='<div class="alert" style="margin-top:8px"><b>الانقباضات منتظمة وقريبة.</b> كلّمي العيادة أو اتحركي على المستشفى.<br><a class="btn btn-warn btn-sm" href="tel:'+CLINIC.phone+'" style="margin-top:6px">📞 اتصال</a></div>';
+    } else $("ctSummary").textContent="سجّلي 4 انقباضات على الأقل علشان نحسب المتوسط";
+  } else $("ctSummary").textContent="";
+  $("ctHist").innerHTML=html; $("ctAlert").innerHTML=alert;
+}
+
+/* ---------- شنطة الولادة ---------- */
+const BAG=["البطاقة وكارنيه/ملف المتابعة","التحاليل والسونارات","هدوم مريحة بزراير من قدام","فوط صحية للولادة","لبس البيبي (2–3 طقم) وبطانية","حفاضات ومناديل مبللة","شاحن الموبايل","حاجات شخصية (فرشة، صابون، فوطة)","سنتيان رضاعة","حاجة خفيفة تتاكل ومية"];
+function renderBag(){ $("bagList").innerHTML=BAG.map((b,i)=>'<div class="dose'+(S.bag[i]?" done":"")+'"><span class="t">'+b+'</span><button class="tick" onclick="S.bag['+i+']=!S.bag['+i+'];save();renderBag()">✓</button></div>').join(""); }
+
+/* ---------- الحجز ---------- */
+function sendBooking(){
+  const p=preg(); const n=S.profile?.name||"";
+  let msg="السلام عليكم، أنا "+n+" وعايزة أحجز عند "+CLINIC.doctor+".\nسبب الزيارة: "+$("bkReason").value;
+  if(p && p.left>-60) msg+="\nعمر الحمل: "+p.w+" أسبوع و"+p.d+" يوم";
+  if($("bkDate").value) msg+="\nاليوم المناسب: "+fmtD(parseD($("bkDate").value));
+  if($("bkNote").value.trim()) msg+="\nملاحظة: "+$("bkNote").value.trim();
+  openExt("https://wa.me/"+CLINIC.whatsapp+"?text="+encodeURIComponent(msg));
+}
+
+/* ---------- نسخة احتياطية ---------- */
+function exportData(){ const b=new Blob([JSON.stringify(S)],{type:"application/json"});
+  if(NATIVE){ blobToB64(b).then(x=>shareFile("my-pregnancy-backup.json","application/json",x,"نسخة احتياطية — رحلة الحمل")); return; } const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="my-pregnancy-backup.json"; a.click(); }
+function importData(inp){ const f=inp.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!("meds" in d)) throw 0; S=Object.assign(blank(), d); save(); render(); toast("اتسترجعت البيانات ✓"); }catch(e){ toast("الملف ده مش صحيح"); } }; r.readAsText(f); }
+
+/* ---------- التنبيهات داخل التطبيق ---------- */
+let swReg=null;
+if("serviceWorker" in navigator && !NATIVE){ navigator.serviceWorker.register("sw.js").then(r=>swReg=r).catch(()=>{}); }
+function askNotif(){
+  if(NATIVE || !("Notification" in window)){ toast("علشان التنبيه يرن في ميعاده، دوسي «أضيفي للتقويم» جنب كل دوا"); return; }
+  Notification.requestPermission().then(p=>toast(p==="granted"?"التنبيهات اتفعلت ✓":"التنبيهات مقفولة من الإعدادات"));
+}
+function notify(title,body){
+  try{
+    if(Notification.permission!=="granted") return;
+    if(swReg) swReg.showNotification(title,{body,icon:"icon-192.png",badge:"icon-192.png",dir:"rtl",lang:"ar",vibrate:[200,100,200]});
+    else new Notification(title,{body});
+  }catch(e){}
+}
+let lastFired={};
+setInterval(()=>{
+  const now=new Date(), hm=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0"), t=ymd(now);
+  S.meds.filter(m=>!m.until||m.until>=t).forEach(m=>m.times.forEach(tm=>{ const k=t+m.id+tm; if(tm===hm && !lastFired[k] && !(S.taken[t]||{})[m.id+"_"+tm]){ lastFired[k]=1; notify("💊 ميعاد "+m.name, m.note||"ما تنسيش جرعتك"); toast("💊 ميعاد "+m.name); } }));
+},20000);
+
+
+/* =========================================================
+   📷 قراءة الروشتة (Gemini عن طريق خدمة Cloudflare)
+   ========================================================= */
+let rxKind="prescription", rxMeds=[];
+function serviceOn(){ return !!(CLINIC.reader && CLINIC.token); }
+function pickRx(kind){
+  if(!serviceOn()){ rxMessage("خدمة قراءة الروشتة مش متفعلة لسه.","ضيفي الأدوية يدوي من زرار «+ إضافة»."); return; }
+  rxKind=kind; $("rxFile").click();
+}
+$("rxFile").onchange = async e => {
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  $("rxBody").innerHTML='<div class="spin"></div><p class="center">بنقرا '+(rxKind==="box"?"العلبة":"الروشتة")+'… ممكن ياخد لحد دقيقة</p>';
+  $("rxModal").classList.add("on");
+  let img;
+  try{ img=await shrinkImage(f, 1600); }
+  catch(err){ rxMessage("مش قادرين نفتح الصورة دي.","جربي تصوّري تاني بالكاميرا أو اختاري صورة JPG."); return; }
+  try{
+    const res=await postJSON(CLINIC.reader+"/api/read-prescription",{"x-app-token":CLINIC.token},{image:img, mimeType:"image/jpeg", kind:rxKind},60000);
+    const data=res.data||{};
+    if(!res.ok){ rxMessage(data.error||"خدمة القراءة مش متاحة دلوقتي.","جربي كمان شوية، أو ضيفي الأدوية يدوي."); return; }
+    rxMeds=(data.medicines||[]);
+    if(!rxMeds.length){ rxMessage("ما قدرناش نقرا أدوية من الصورة.","جربي صورة أوضح في نور كويس، أو ضيفي الأدوية يدوي."); return; }
+    renderRx();
+  }catch(err){
+    rxMessage(err.name==="AbortError"?"الخدمة اتأخرت قوي في الرد.":"الخدمة مش متاحة دلوقتي.","اتأكدي إن النت شغال وجربي تاني، أو ضيفي الأدوية يدوي.");
+  }
+};
+function rxMessage(title,hint){
+  $("rxBody").innerHTML='<div class="alert"><b>'+esc(title)+'</b><br>'+esc(hint)+'</div><br><div class="row"><button style="flex:1" onclick="closeM(\'rxModal\');openMed()">+ إضافة يدوي</button><button class="btn2" onclick="closeM(\'rxModal\')">إغلاق</button></div>';
+  $("rxModal").classList.add("on");
+}
+// تصغير الصورة في المتصفح: أقصى ضلع maxSide، JPEG ← base64 من غير البادئة
+function shrinkImage(file,maxSide){
+  return new Promise((ok,fail)=>{
+    const url=URL.createObjectURL(file), im=new Image();
+    im.onload=()=>{
+      const sc=Math.min(1,maxSide/Math.max(im.naturalWidth,im.naturalHeight));
+      const w=Math.max(1,Math.round(im.naturalWidth*sc)), h=Math.max(1,Math.round(im.naturalHeight*sc));
+      const c=document.createElement("canvas"); c.width=w; c.height=h;
+      const g=c.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,w,h); g.drawImage(im,0,0,w,h);
+      URL.revokeObjectURL(url);
+      ok(c.toDataURL("image/jpeg",0.85).split(",")[1]);
+    };
+    im.onerror=()=>{ URL.revokeObjectURL(url); fail(new Error("img")); };
+    im.src=url;
+  });
+}
+const SUGGEST={1:["09:00"],2:["09:00","21:00"],3:["08:00","14:00","20:00"],4:["06:00","12:00","18:00","00:00"]};
+const FOOD={before:"قبل الأكل",after:"بعد الأكل",with:"مع الأكل",any:""};
+function renderRx(){
+  const u=(m,f)=>(m.uncertain||[]).includes(f)?" unc":"";
+  $("rxBody").innerHTML='<p class="muted" style="margin-top:0">راجعي كل دوا على الروشتة الأصلية. الخانات <span class="legend">الملوّنة بالأصفر</span> الخدمة مش متأكدة منها — اتأكدي منها كويس. شيلي علامة ✓ من أي دوا مش عايزة تضيفيه.</p>'
+   + rxMeds.map((m,i)=>{
+      const times=SUGGEST[m.timesPerDay]||["09:00"];
+      const tUnc=!SUGGEST[m.timesPerDay]||(m.uncertain||[]).includes("timesPerDay");
+      return '<div class="rx" id="rx'+i+'">'
+       +'<label class="rxh"><input type="checkbox" checked onchange="$(\'rx'+i+'\').classList.toggle(\'off\',!this.checked)"><b>دوا '+(i+1)+'</b></label>'
+       +'<label>اسم الدوا</label><input class="f-name'+u(m,"name")+'" value="'+esc(m.name)+'">'
+       +'<div class="two"><div><label>التركيز</label><input class="f-strength'+u(m,"strength")+'" value="'+esc(m.strength)+'"></div>'
+       +'<div><label>الجرعة</label><input class="f-dose'+u(m,"dose")+'" value="'+esc(m.dose)+'"></div></div>'
+       +'<div class="two"><div><label>مع الأكل</label><select class="f-food'+u(m,"foodRelation")+'">'
+         +Object.keys(FOOD).map(k=>'<option value="'+k+'"'+(m.foodRelation===k?" selected":"")+'>'+(FOOD[k]||"مش مهم")+'</option>').join("")+'</select></div>'
+       +'<div><label>المدة (أيام)</label><input type="number" inputmode="numeric" class="f-days'+u(m,"durationDays")+'" value="'+(m.durationDays||"")+'" placeholder="مستمر"></div></div>'
+       +'<label>ملاحظات</label><input class="f-notes" value="'+esc(m.notes)+'">'
+       +'<label>المواعيد'+(m.timesPerDay?' ('+m.timesPerDay+' مرات في اليوم)':' — مش مكتوب عدد المرات، حدديه')+'</label>'
+       +'<div class="f-times">'+times.map(t=>timeRow(t,tUnc)).join("")+'</div>'
+       +'<button class="btn2 btn-sm" onclick="this.previousElementSibling.insertAdjacentHTML(\'beforeend\',timeRow(\'21:00\',false))">+ ميعاد</button>'
+       +'</div>';
+    }).join("")
+   +'<div class="row" style="position:sticky;bottom:0;background:#fff;padding:8px 0"><button class="btn-ok" style="flex:1" onclick="saveRx()">حفظ الأدوية المختارة</button><button class="btn2" onclick="closeM(\'rxModal\')">إلغاء</button></div>';
+}
+function timeRow(t,unc){ return '<div class="row" style="margin-bottom:6px"><input type="time" value="'+t+'" style="flex:1"'+(unc?' class="unc"':'')+'><button class="btn2 btn-sm" onclick="this.parentNode.remove()">✕</button></div>'; }
+function saveRx(){
+  let n=0, missing=false;
+  rxMeds.forEach((_,i)=>{
+    const box=$("rx"+i); if(!box.querySelector(".rxh input").checked) return;
+    const v=c=>box.querySelector(c).value.trim();
+    const name=v(".f-name"); if(!name){ missing=true; return; }
+    const times=[...box.querySelectorAll(".f-times input")].map(x=>x.value).filter(Boolean).sort();
+    if(!times.length){ missing=true; return; }
+    const days=parseInt(v(".f-days"),10);
+    const note=[v(".f-strength"), v(".f-dose"), FOOD[box.querySelector(".f-food").value], days>0?"لمدة "+days+" يوم":"", v(".f-notes")].filter(Boolean).join(" • ");
+    S.meds.push({id:uid(),name,note,times,added:ymd(new Date()),...(days>0?{until:ymd(new Date(today0().getTime()+(days-1)*DAY))}:{})});
+    n++;
+  });
+  if(missing){ toast("فيه دوا من غير اسم أو من غير ميعاد"); return; }
+  if(!n){ toast("اختاري دوا واحد على الأقل"); return; }
+  save(); closeM("rxModal"); render(); toast("اتضاف "+n+" دوا ✓");
+}
+
+/* =========================================================
+   📊 قياساتي: الضغط والوزن والسكر
+   ========================================================= */
+const SUGT={fasting:"صايمة",post:"بعد الأكل",random:"عشوائي"};
+function bpLevel(v){ if(!v||!v.sys) return 0; if(v.sys>=160||v.dia>=110) return 2; if(v.sys>=140||v.dia>=90) return 1; return 0; }
+function lastBp(){ return S.vitals.filter(v=>v.sys).sort((a,b)=>(b.date+b.ts).localeCompare(a.date+a.ts))[0]; }
+function bpAlertHtml(v){
+  const lv=bpLevel(v);
+  const head = lv===2? "🚨 الضغط "+v.sys+"/"+v.dia+" عالي جدًا — كلّمي العيادة فورًا أو روحي الطوارئ."
+                     : "⚠️ الضغط "+v.sys+"/"+v.dia+" أعلى من الطبيعي (140/90 أو أكتر). ارتاحي ربع ساعة وقيسيه تاني، وكلّمي العيادة النهارده.";
+  return '<div class="alert'+(lv===2?" urgent":"")+'" style="margin-bottom:14px"><b>'+head+'</b>'
+    +'<div style="font-size:15px;margin-top:4px">لو معاه صداع شديد أو زغللة أو ألم أعلى البطن أو تورم مفاجئ في الوش والإيدين — روحي الطوارئ على طول.</div>'
+    +'<a class="btn btn-sm '+(lv===2?"btn2":"btn-warn")+'" href="tel:'+esc(CLINIC.phone)+'" style="margin-top:8px">📞 اتصال بالعيادة</a></div>';
+}
+function saveVital(){
+  const num=id=>{ const x=parseFloat($(id).value); return Number.isFinite(x)?x:null; };
+  const sys=num("vSys"), dia=num("vDia"), wt=num("vWt"), sug=num("vSug"), date=$("vDate").value||ymd(new Date());
+  if(sys===null&&dia===null&&wt===null&&sug===null){ toast("اكتبي قياس واحد على الأقل"); return; }
+  if((sys===null)!==(dia===null)){ toast("اكتبي رقمين الضغط: العالي والواطي"); return; }
+  if(sys!==null && (sys<60||sys>260||dia<30||dia>160||dia>=sys)){ toast("أرقام الضغط مش مظبوطة، راجعيها"); return; }
+  if(wt!==null && (wt<30||wt>250)){ toast("الوزن مش مظبوط، راجعيه"); return; }
+  if(sug!==null && (sug<20||sug>600)){ toast("رقم السكر مش مظبوط، راجعيه"); return; }
+  const v={id:uid(),date,ts:new Date().toTimeString().slice(0,5)};
+  if(sys!==null){ v.sys=Math.round(sys); v.dia=Math.round(dia); }
+  if(wt!==null) v.wt=Math.round(wt*10)/10;
+  if(sug!==null){ v.sug=Math.round(sug); v.sugT=$("vSugT").value; }
+  S.vitals.push(v); save();
+  ["vSys","vDia","vWt","vSug"].forEach(id=>$(id).value="");
+  render(); toast(bpLevel(v)?"اتسجل — راجعي التنبيه ⚠️":"القياس اتسجل ✓");
+}
+function delVital(id){ if(confirmDel(id)){ S.vitals=S.vitals.filter(x=>x.id!==id); save(); render(); } }
+function vitalRows(list, withDel){
+  return "<table><tr><th>اليوم</th><th>الضغط</th><th>الوزن</th><th>السكر</th>"+(withDel?"<th></th>":"")+"</tr>"
+   + list.map(v=>"<tr><td>"+parseD(v.date).toLocaleDateString("ar-EG",{day:"numeric",month:"short"})+"</td>"
+     +"<td"+(bpLevel(v)?' class="hi"':"")+">"+(v.sys?v.sys+"/"+v.dia:"—")+"</td>"
+     +"<td>"+(v.wt?v.wt+" كجم":"—")+"</td>"
+     +"<td>"+(v.sug?v.sug+' <small class="muted">'+(SUGT[v.sugT]||"")+"</small>":"—")+"</td>"
+     +(withDel?'<td><button class="btn2 btn-sm" onclick="delVital(\''+v.id+'\')">✕</button></td>':"")+"</tr>").join("")+"</table>";
+}
+function sortedVitals(){ return S.vitals.slice().sort((a,b)=>(b.date+b.ts).localeCompare(a.date+a.ts)); }
+function renderVitals(){
+  if(!$("vDate").value) $("vDate").value=ymd(new Date());
+  const L=sortedVitals();
+  $("vHist").innerHTML = L.length? vitalRows(L.slice(0,10),true) : "";
+  const lb=lastBp(), recent=lb && (today0()-parseD(lb.date))/DAY<=3;
+  $("vAlert").innerHTML = recent && bpLevel(lb)? bpAlertHtml(lb) : "";
+}
+
+/* =========================================================
+   📄 تقرير PDF للدكتور (html2canvas + jsPDF عند الطلب)
+   ========================================================= */
+const LIBS=[
+  "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+];
+const _scripts={};
+function loadScript(src){
+  return _scripts[src] ||= new Promise((ok,fail)=>{
+    const el=document.createElement("script"); el.src=src; el.onload=ok;
+    el.onerror=()=>{ delete _scripts[src]; el.remove(); fail(new Error("load")); };
+    document.head.appendChild(el);
+  });
+}
+$("drQs").oninput=()=>{ S.questions=$("drQs").value; save(); };
+
+// نسبة الالتزام بالدوا في آخر 7 أيام (بنحسب بس الجرعات اللي ميعادها عدّى)
+function adherence(m){
+  const now=new Date(), hm=now.toTimeString().slice(0,5);
+  let due=0, done=0;
+  for(let i=0;i<7;i++){
+    const day=ymd(new Date(today0().getTime()-i*DAY));
+    if(m.added && day<m.added) continue;
+    if(m.until && day>m.until) continue;
+    m.times.forEach(tm=>{ if(i===0 && tm>hm) return; due++; if((S.taken[day]||{})[m.id+"_"+tm]) done++; });
+  }
+  return due? {pct:Math.round(done/due*100), done, due} : null;
+}
+function buildReport(){
+  const p=preg(), P=S.profile||{}, t=ymd(new Date());
+  const row=(cells,tag)=>"<tr>"+cells.map(c=>"<"+(tag||"td")+">"+c+"</"+(tag||"td")+">").join("")+"</tr>";
+  const none=txt=>'<p class="none">'+txt+'</p>';
+  let h='<div class="rh"><img src="doctor.jpg"><div><h1>'+esc(CLINIC.doctor)+'</h1><div class="sub">'+esc(CLINIC.title)+'</div><div class="sub">📞 '+esc(CLINIC.phone)+(CLINIC.address?' — '+esc(CLINIC.address):'')+'</div></div>'
+    +'<div class="rt"><b>تقرير متابعة الحمل</b>'+new Date().toLocaleDateString("ar-EG",{day:"numeric",month:"long",year:"numeric"})+'</div></div>';
+  // بيانات المريضة
+  h+='<div class="blk"><h2>👩 بيانات المريضة</h2><div class="grid">'
+    +'<div><small>الاسم</small><b>'+esc(P.name||"—")+'</b></div>'
+    +'<div><small>عمر الحمل</small><b>'+(p&&p.left>=0? p.w+" أسبوع"+(p.d?" و"+p.d+" يوم":"") : p? "بعد موعد الولادة":"—")+'</b></div>'
+    +'<div><small>موعد الولادة المتوقع</small><b>'+(p? p.edd.toLocaleDateString("ar-EG",{day:"numeric",month:"short",year:"numeric"}):"—")+'</b></div>'
+    +'<div><small>فصيلة الدم (Rh)</small><b>'+(P.rh==="neg"?"سالب (−)":P.rh==="pos"?"موجب (+)":"غير محددة")+'</b></div>'
+    +'</div></div>';
+  // الأدوية
+  h+='<div class="blk"><h2>💊 الأدوية والالتزام (آخر 7 أيام)</h2>';
+  const meds=S.meds.filter(m=>!m.until||m.until>=ymd(new Date(today0().getTime()-6*DAY)));
+  h+= meds.length? '<table>'+row(["الدوا","الجرعة / التعليمات","المواعيد","الالتزام"],"th")
+    + meds.map(m=>{ const a=adherence(m); return row([ "<b><bdi>"+esc(m.name)+"</bdi></b>", m.note?noteHtml(m.note):"—", m.times.map(fmtT).join("، "),
+        a? '<b'+(a.pct<70?' style="color:#c0392b"':'')+'>'+a.pct+'%</b> <small>('+a.done+'/'+a.due+')</small>' : "—" ]); }).join("")+'</table>'
+    : none("مفيش أدوية متسجلة.");
+  h+='</div>';
+  // القياسات
+  const V=sortedVitals().slice(0,8);
+  h+='<div class="blk"><h2>📊 آخر القياسات</h2>'+(V.length? vitalRows(V,false) : none("مفيش قياسات متسجلة."))+'</div>';
+  // حركة الجنين
+  const Kk=S.kicks.slice(0,5);
+  h+='<div class="blk"><h2>👶 عدّ حركة الجنين</h2>'+(Kk.length? '<table>'+row(["اليوم","الوقت","عدد الحركات","المدة"],"th")
+    + Kk.map(k=>row([new Date(k.start).toLocaleDateString("ar-EG",{weekday:"short",day:"numeric",month:"short"}), new Date(k.start).toLocaleTimeString("ar-EG",{hour:"numeric",minute:"2-digit"}), (k.count<10?'<b style="color:#c0392b">'+k.count+'</b>':k.count), Math.max(1,Math.round((k.end-k.start)/60000))+" دقيقة"])).join("")+'</table>'
+    : none("مفيش جلسات عدّ حركة متسجلة."))+'</div>';
+  // الانقباضات (لو موجودة)
+  if(S.ct.length){
+    const c=S.ct.slice(-8);
+    h+='<div class="blk"><h2>⏱️ الانقباضات (آخر جلسة)</h2><table>'+row(["الوقت","المدة","الفاصل عن اللي قبلها"],"th")
+      + c.map(x=>{ const i=S.ct.indexOf(x); return row([new Date(x.s).toLocaleString("ar-EG",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}), Math.round((x.e-x.s)/1000)+" ثانية", i>0? Math.round((x.s-S.ct[i-1].s)/60000)+" دقيقة":"—"]); }).join("")+'</table></div>';
+  }
+  // المواعيد الجاية
+  const up=S.appts.filter(a=>a.date>=t).slice(0,5);
+  const sug=p? plan(p).filter(x=>x.date>=today0()).slice(0,2) : [];
+  h+='<div class="blk"><h2>📅 المواعيد الجاية</h2>';
+  if(up.length) h+='<table>'+row(["الموعد","التاريخ","الساعة"],"th")+up.map(a=>row([esc(a.title)+(a.note?" — "+esc(a.note):""), fmtD(parseD(a.date)), fmtT(a.time)])).join("")+'</table>';
+  else if(sug.length) h+=none("مفيش مواعيد متسجلة. المقترح حسب عمر الحمل: "+sug.map(x=>x.t+" (حوالي "+x.date.toLocaleDateString("ar-EG",{day:"numeric",month:"short"})+")").join("، "));
+  else h+=none("مفيش مواعيد متسجلة.");
+  h+='</div>';
+  // أسئلة للدكتور
+  h+='<div class="blk"><h2>❓ أسئلة للدكتور</h2><div class="qs">'+(esc((S.questions||"").trim())||'<span class="none">مفيش أسئلة.</span>')+'</div></div>';
+  h+='<div class="foot">البيانات دي سجّلتها المريضة بنفسها في تطبيق «رحلة الحمل» — '+esc(CLINIC.doctor)+'</div>';
+  $("report").innerHTML=h;
+}
+let _busy=false;
+async function makeReport(){
+  if(_busy) return;
+  if(!S.profile){ toast("سجّلي بيانات الحمل في الرئيسية الأول"); return; }
+  S.questions=$("drQs").value; save();
+  _busy=true; const btn=$("repBtn"), old=btn.textContent; btn.textContent="⏳ بنجهّز التقرير…"; btn.disabled=true;
+  try{
+    try{ await Promise.all(LIBS.map(loadScript)); }
+    catch(e){ toast("محتاجة نت علشان نعمل التقرير — اتأكدي من النت وجربي تاني"); return; }
+    buildReport();
+    const el=$("report");
+    await Promise.all([...el.querySelectorAll("img")].map(i=>i.complete?0:new Promise(r=>{i.onload=i.onerror=r;})));
+    if(document.fonts&&document.fonts.ready) await document.fonts.ready;
+    const scale=2, canvas=await html2canvas(el,{scale,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:794});
+    // تقسيم الصفحات من غير ما نقطع سطر في النص
+    const pageH=Math.floor(canvas.width*297/210), top0=el.getBoundingClientRect().top;
+    const cuts=[...el.querySelectorAll(".blk,tr,h2,.qs,.foot")].map(n=>Math.round((n.getBoundingClientRect().top-top0)*scale)).sort((a,b)=>a-b);
+    const {jsPDF}=window.jspdf, pdf=new jsPDF({unit:"mm",format:"a4",orientation:"p"});
+    let y=0, page=0;
+    while(y<canvas.height-4){
+      let end=y+pageH;
+      if(end<canvas.height){ const c=cuts.filter(v=>v>y+pageH*0.4 && v<=end).pop(); if(c) end=c; }
+      end=Math.min(end,canvas.height);
+      const part=document.createElement("canvas"); part.width=canvas.width; part.height=end-y;
+      const g=part.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,part.width,part.height); g.drawImage(canvas,0,-y);
+      if(page) pdf.addPage();
+      pdf.addImage(part.toDataURL("image/jpeg",0.92),"JPEG",0,0,210,(end-y)*210/canvas.width);
+      y=end; page++;
+    }
+    if(page>1) for(let i=1;i<=page;i++){ pdf.setPage(i); pdf.setFontSize(9); pdf.setTextColor(150); pdf.text(i+" / "+page,105,292,{align:"center"}); }
+    const fname="report-"+ymd(new Date())+".pdf";
+    const blob=pdf.output("blob");
+    if(NATIVE){ await shareFile(fname,"application/pdf",await blobToB64(blob),"تقرير متابعة الحمل — "+(S.profile.name||"")); return; }
+    const file=new File([blob],fname,{type:"application/pdf"});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file], title:"تقرير متابعة الحمل", text:"تقرير متابعة الحمل — "+(S.profile.name||"")}); }
+      catch(e){ if(e.name!=="AbortError") downloadAndWa(file); }
+    } else downloadAndWa(file);
+  }catch(e){
+    console.error(e); toast("حصلت مشكلة في عمل التقرير، جربي تاني");
+  }finally{ _busy=false; btn.textContent=old; btn.disabled=false; $("report").innerHTML=""; }
+}
+function downloadAndWa(file){
+  const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=file.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),60000);
+  toast("التقرير اتنزل ✓ — ابعتيه للعيادة على واتساب كمرفق 📎");
+  setTimeout(()=>openExt("https://wa.me/"+CLINIC.whatsapp+"?text="+encodeURIComponent("السلام عليكم، ده تقرير متابعة الحمل بتاعي ("+(S.profile.name||"")+") — هبعته كملف PDF.")),1200);
+}
+
+/* =========================================================
+   💬 بوت «اسألي د. مجدي»
+   الإجابات دايمًا من faq.js — الخدمة (لو موجودة) بتختار رقم السؤال بس.
+   ========================================================= */
+const FAQS=window.FAQ||[], CATS=window.FAQ_CATS||[];
+function fill(a){
+  return String(a).replace(/\{(doctor|phone|whatsapp|address|hours|title)\}/g,(_,k)=>!CLINIC[k]?"":k==="address"?"📍 "+CLINIC.address:CLINIC[k])
+    .split("\n").map(x=>x.trim()).filter(Boolean).join("\n");
+}
+function norm(s){
+  return String(s||"").toLowerCase()
+    .replace(/[ً-ْٰـ]/g,"").replace(/[أإآٱ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي")
+    .replace(/ؤ/g,"و").replace(/ئ/g,"ي").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d))
+    .replace(/[^ء-يa-z0-9\s]/g," ").replace(/\s+/g," ").trim();
+}
+const STOP=new Set("انا انتي انت عندي عندى في فى من على علي عن هو هي ده دي دا ايه ازاي ازاى ينفع اعمل اعملها ليه امتي هل لو مع ما مش بس يا دكتور دكتوره د مجدي كده اللي الي كان بقي بقيت ممكن عايزه عاوزه حاجه حاجات اوي قوي جدا ولا او و ف ب ل شويه طب طيب بتاعي بتاعتي بيبقي يعني اني انه انها ايوه لا كام هو".split(" "));
+function variants(w){
+  const v=new Set([w]);
+  for(const pre of ["وال","بال","فال","كال","لل","ال"]) if(w.startsWith(pre)&&w.length-pre.length>=2) v.add(w.slice(pre.length));
+  if(/^[وبف]/.test(w)&&w.length>3) v.add(w.slice(1));
+  return [...v];
+}
+function toks(s){ return norm(s).split(" ").filter(w=>w.length>=2&&!STOP.has(w)); }
+const IDX=FAQS.map(f=>{ const kw=new Set(), qw=new Set(); toks(f.k).forEach(w=>variants(w).forEach(x=>kw.add(x))); toks(f.q).forEach(w=>variants(w).forEach(x=>qw.add(x))); return {f,kw,qw,all:[...kw,...qw]}; });
+// الكلمة النادرة (زي «حموضة») أهم من الكلمة المتكررة في أسئلة كتير (زي «بالليل»)
+const DF={}; IDX.forEach(it=>new Set(it.all).forEach(w=>DF[w]=(DF[w]||0)+1));
+function rarity(vs){ const d=Math.max(1,...vs.map(x=>DF[x]||0)); return 1/Math.sqrt(d); }
+function search(text){
+  const qt=toks(text); if(!qt.length) return [];
+  return IDX.map(it=>{
+    let sc=0, hit=0;
+    qt.forEach(w=>{
+      const vs=variants(w); let best=0;
+      const inK=vs.some(x=>it.kw.has(x)), inQ=vs.some(x=>it.qw.has(x));
+      if(inK) best=inQ?4:3; else if(inQ) best=2;
+      else if(w.length>=3 && it.all.some(x=>x.length>=3 && (x.startsWith(w)||w.startsWith(x)))) best=1.2;
+      if(best){ sc+=best*rarity(vs); hit++; }
+    });
+    return {f:it.f, sc, cov:hit/qt.length};
+  }).filter(x=>x.sc>0.3).sort((a,b)=>b.sc-a.sc||b.cov-a.cov);
+}
+// علامات الخطر — بتتشاف محليًا قبل أي حاجة
+const DANGER=[
+  /نزيف|بنزف|بتنزف|ينزف|نازل(ه)? (مني |منى )?دم|نزل(ت)? (مني |منى )?دم|دم (كتير|نازل|احمر|غزير|فاتح)|كتل دم/,
+  /(ميه|مياه|ماء|سوايل|سوائل|مايه) (نازل|نازله|نزلت|بتنزل|بتخر|سايبه)|نزل(ت)? (مني |منى )?(ميه|مياه|ماء|مايه)|(كيس|جيب) (الميه|المياه|الماء) (انفجر|اتفتح|اتقطع|نزل)/,
+  /صداع (شديد|جامد|فظيع|جامد جدا|مش بيروح|مستمر|رهيب)|زغلل|مش شايفه كويس|نظري (اتغير|ضعف|مزغلل)/,
+  /(الحركه|حركه (البيبي|الجنين|البيبى|النونو)|حركته|البيبي|الجنين) (قلت|قليله|وقفت|بطلت|خفت|مش موجوده)|مش (حاسه|بحس|حاسس) ب?(الحركه|حركته|حركه|البيبي|الجنين)|(البيبي|الجنين) (مش|ما) ?بيتحرك|مبيتحركش|مابيتحركش/,
+  /تشنجات|اتشنجت|بتشنج|نوبه تشنج|صرع/,
+  /اغمي|اغماء|اغم(ي|ا) عليا|فقدت الوعي|وقعت من طولي|فرفرت/,
+  /(الم|وجع|مغص|تقلصات) (شديد|شديده|جامد|فظيع|مش مستحمل|مش قادره استحمله|رهيب|جامد جدا)/,
+  /(سخونيه|حراره|حمي) (عاليه|جامده|شديده)|حرارتي (٣٩|39|40|٤٠)/,
+  /انتحر|اموت نفسي|اذي نفسي|اذي البيبي|عايزه اموت/
+];
+function isDanger(text){ const n=norm(text); return DANGER.some(r=>r.test(n)); }
+let chatInit=false, asking=false;
+function askMode(m){
+  $("segChat").classList.toggle("on",m==="chat"); $("segBrowse").classList.toggle("on",m==="browse");
+  $("askChat").style.display=m==="chat"?"block":"none"; $("askBrowse").style.display=m==="browse"?"block":"none";
+  if(m==="browse") renderFaqList();
+}
+function avatar(){ return '<img class="av av-s" src="doctor.jpg" alt="">'; }
+function botSay(html,cls){ $("chatLog").insertAdjacentHTML("beforeend",'<div class="msg">'+avatar()+'<div class="bub'+(cls?" "+cls:"")+'">'+html+'</div></div>'); scrollChat(); }
+function meSay(text){ $("chatLog").insertAdjacentHTML("beforeend",'<div class="msg me"><div class="bub">'+esc(text)+'</div></div>'); scrollChat(); }
+function scrollChat(){ const l=$("chatLog").lastElementChild; if(l) l.scrollIntoView({behavior:"smooth",block:"end"}); }
+function answerHtml(f){
+  return '<div class="q">'+esc(f.q)+'</div><p>'+esc(fill(f.a)).replace(/\n/g,"<br>")+'</p>'
+    +(f.r?'':'<span class="draft">مسودة — تحتاج مراجعة د. مجدي</span>')
+    +'<div class="muted" style="font-size:13px;margin-top:4px">معلومة عامة — لو حالتك مختلفة اسألي الدكتور.</div>';
+}
+function waLink(text){ return "https://wa.me/"+CLINIC.whatsapp+"?text="+encodeURIComponent(text); }
+function emergencyHtml(){
+  return '<b>⚠️ اللي بتوصفيه ممكن يكون علامة خطر.</b><p>ما تستنيش — اتصلي بالعيادة دلوقتي، أو روحي أقرب طوارئ نسا وتوليد فورًا.</p>'
+    +'<div class="row"><a class="btn btn-warn btn-sm" href="tel:'+esc(CLINIC.phone)+'">📞 اتصال بالعيادة</a></div>';
+}
+function notFoundHtml(q,sugs){
+  return '<b>السؤال ده محتاج د. مجدي 🙏</b><p>ما لقيتش إجابة جاهزة لسؤالك. ابعتيه للعيادة على واتساب.</p>'
+    +'<a class="btn btn-ok btn-sm" target="_blank" href="'+waLink("السلام عليكم، عندي سؤال لـ "+CLINIC.doctor+":\n"+q)+'">💬 ابعتي السؤال على واتساب</a>'
+    +(sugs&&sugs.length? '<p class="muted" style="margin-top:8px">أو يمكن تقصدي:</p>'+sugs.map(x=>'<button class="chip" onclick="showFaq(\''+x.f.id+'\')">'+esc(x.f.q)+'</button>').join("") : "");
+}
+function showFaq(id){ const f=FAQS.find(x=>x.id===id); if(!f) return; meSay(f.q); botSay(answerHtml(f)); }
+function initChat(){
+  if(chatInit) return; chatInit=true;
+  botSay('أهلاً بيكي 🌸 أنا مساعد '+esc(CLINIC.doctor)+'. اكتبي سؤالك وهدوّرلك على إجابته في الأسئلة الشائعة اللي في العيادة.<div class="muted" style="font-size:13px;margin-top:4px">الإجابات عامة ومش بديل عن الكشف. في أي حالة طارئة اتصلي بالعيادة على طول.</div>');
+  $("askSug").innerHTML='<div class="muted" style="font-size:14px">أسئلة كتير بتتسأل:</div>'+["s1","m1","f2","b2","s13","c1"].map(id=>{const f=FAQS.find(x=>x.id===id);return f?'<button class="chip" onclick="showFaq(\''+id+'\')">'+esc(f.q)+'</button>':"";}).join("");
+}
+$("askIn").addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); ask(); } });
+async function ask(){
+  const q=$("askIn").value.trim(); if(!q||asking) return;
+  $("askIn").value=""; meSay(q);
+  // 1) علامات الخطر محليًا قبل أي حاجة
+  if(isDanger(q)){ botSay(emergencyHtml(),"em"); return; }
+  // 2) بحث محلي بالكلمات المفتاحية
+  const R=search(q), top=R[0], second=R[1];
+  const clear = top && (!second || top.sc>=second.sc*1.3);   // لازم يكون فيه فايز واضح، مش تعادل
+  const strong = clear && (top.sc>=5 || (top.sc>=2.5 && top.cov>=0.5));
+  if(strong){ botSay(answerHtml(top.f)); return; }
+  // 3) لو الخدمة موجودة: Gemini يختار رقم السؤال بس
+  if(serviceOn()){
+    asking=true;
+    $("chatLog").insertAdjacentHTML("beforeend",'<div class="msg" id="typing">'+avatar()+'<div class="bub"><span class="dots"><span></span><span></span><span></span></span></div></div>'); scrollChat();
+    let res=null;
+    try{
+      const r=await postJSON(CLINIC.reader+"/api/faq-match",{"x-app-token":CLINIC.token},{question:q, options:FAQS.map(f=>({id:f.id,q:f.q}))},15000);
+      if(r.ok) res=r.data;
+    }catch(e){}
+    asking=false; const ty=$("typing"); if(ty) ty.remove();
+    if(res){
+      if(res.emergency){ botSay(emergencyHtml(),"em"); return; }
+      const f=res.id && FAQS.find(x=>x.id===res.id);
+      if(f){ botSay(answerHtml(f)); return; }
+      botSay(notFoundHtml(q,R.slice(0,3))); return;
+    }
+  }
+  // 4) من غير خدمة (أو الخدمة وقعت): أقرب نتيجة محلية لو معقولة
+  if(clear && top.sc>=2 && top.cov>=0.5){ botSay(answerHtml(top.f)); return; }
+  botSay(notFoundHtml(q,R.filter(x=>x.sc>=1).slice(0,3)));
+}
+// صفحة تصفّح الأسئلة
+$("faqSearch").oninput=renderFaqList;
+function qaHtml(f){ return '<details class="qa"><summary>'+esc(f.q)+'</summary><p>'+esc(fill(f.a)).replace(/\n/g,"<br>")+'</p>'+(f.r?'':'<span class="draft">مسودة — تحتاج مراجعة د. مجدي</span>')+'</details>'; }
+function renderFaqList(){
+  const q=$("faqSearch").value.trim();
+  if(q){
+    const n=norm(q);
+    const R=search(q).map(x=>x.f);
+    FAQS.forEach(f=>{ if(!R.includes(f) && (norm(f.q).includes(n)||norm(f.a).includes(n))) R.push(f); });
+    $("faqList").innerHTML = R.length? R.slice(0,25).map(qaHtml).join("") : '<p class="muted">مفيش نتايج. جربي كلمة تانية أو <a href="#" onclick="askMode(\'chat\');return false">اسألي البوت</a>.</p>';
+    return;
+  }
+  $("faqList").innerHTML = CATS.map(c=>{ const L=FAQS.filter(f=>f.c===c.id); return L.length? '<details class="cat"><summary>'+c.icon+' '+esc(c.name)+' <span class="muted">('+L.length+')</span></summary>'+L.map(qaHtml).join("")+'</details>' : ""; }).join("");
+}
+
+/* ---------- العرض ---------- */
+function closeM(id){ $(id).classList.remove("on"); }
+// زرار الرجوع في الأندرويد: يقفل النافذة المفتوحة، وبعدين يرجع للرئيسية، وبعدين يقفل التطبيق
+window.onNativeBack = function(){
+  const m=document.querySelector(".modal.on"); if(m){ m.classList.remove("on"); return true; }
+  const t=document.querySelector(".tab.on"); if(t && t.id!=="t-home"){ go("home"); return true; }
+  if(editing && S.profile){ editing=false; render(); return true; }
+  return false;
+};
+document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{ if(e.target===m) m.classList.remove("on"); });
+
+function render(){
+  const p=preg();
+  // الرئيسية
+  const showSetup = !p || editing;
+  $("setupCard").style.display = showSetup?"block":"none";
+  $("homeMain").style.display = showSetup?"none":"block";
+  if(p){
+    $("hello").textContent="أهلاً "+(S.profile.name||"")+" 🌸";
+    if(p.left<0){ $("weekBig").textContent="مبروك 💐"; $("triText").textContent="عدّى موعد الولادة المتوقع — حدّثي بياناتك أو تابعي مع العيادة"; }
+    else { $("weekBig").textContent="الأسبوع "+p.w; $("triText").textContent=(p.d?"و"+p.d+" يوم — ":"")+(p.w<13?"الثلث الأول":p.w<28?"الثلث التاني":"الثلث الأخير"); }
+    const sz=SIZES[Math.min(40,Math.max(4,p.w))];
+    $("fruitEmoji").textContent=p.w>=4?sz[0]:"✨"; $("fruitText").textContent=p.w>=4?"البيبي في حجم "+sz[1]:"لسه في البداية";
+    $("progBar").style.width=Math.min(100,Math.max(2,p.days/280*100))+"%";
+    $("eddText").textContent="الولادة المتوقعة: "+p.edd.toLocaleDateString("ar-EG",{day:"numeric",month:"long",year:"numeric"});
+    $("leftText").textContent=p.left>=0?("فاضل "+p.left+" يوم"):"";
+    const tips=(TIPS.find(x=>p.w<=x.to)||TIPS[TIPS.length-1]).t;
+    $("tipsList").innerHTML=tips.map(t=>"<li>"+t+"</li>").join("");
+  }
+  // جرعات النهارده
+  const t=ymd(new Date()), tk=S.taken[t]||{};
+  const doses=[]; S.meds.filter(m=>!m.until||m.until>=t).forEach(m=>m.times.forEach(tm=>doses.push({m,tm,k:m.id+"_"+tm})));
+  doses.sort((a,b)=>a.tm.localeCompare(b.tm));
+  $("todayDoses").innerHTML = doses.length? doses.map(d=>'<div class="dose'+(tk[d.k]?" done":"")+'"><div class="t"><b>'+esc(d.m.name)+'</b><div class="muted">'+fmtT(d.tm)+(d.m.note?" • "+noteHtml(d.m.note):"")+'</div></div><button class="tick" onclick="toggleDose(\''+d.k+'\')">✓</button></div>').join("")
+    : '<p class="muted">مفيش أدوية متسجلة. <a href="#" onclick="go(\'meds\');openMed();return false">أضيفي أدويتك</a></p>';
+  // الموعد الجاي
+  const up=S.appts.filter(a=>a.date>=t);
+  $("nextAppt").innerHTML = up.length? '<b>'+esc(up[0].title)+'</b><div class="muted">'+fmtD(parseD(up[0].date))+' • '+fmtT(up[0].time)+'</div>'
+    : '<p class="muted" style="margin:0">مفيش مواعيد. <a href="#" onclick="go(\'appts\');return false">شوفي جدول المتابعة</a></p>';
+  // قائمة الأدوية
+  $("medList").innerHTML = S.meds.length? S.meds.map(m=>'<div class="item'+(m.until&&m.until<t?" past":"")+'"><div class="row between"><b>'+esc(m.name)+(m.until?' <span class="tag">'+(m.until<t?"خلص":"لحد "+parseD(m.until).toLocaleDateString("ar-EG",{day:"numeric",month:"short"}))+'</span>':'')+'</b><span><button class="btn2 btn-sm" onclick="openMed(\''+m.id+'\')">تعديل</button> <button class="btn2 btn-sm" onclick="delMed(\''+m.id+'\')">مسح</button></span></div>'+(m.note?'<div class="muted">'+noteHtml(m.note)+'</div>':'')+m.times.map(tm=>'<div class="row between" style="margin-top:4px"><span>⏰ '+fmtT(tm)+'</span><a class="btn btn-sm btn2" target="_blank" href="'+gcalDaily(m.name,m.note,tm)+'">أضيفي للتقويم</a></div>').join("")+'</div>').join("")
+    : '<p class="muted">لسه مفيش أدوية.</p>';
+  // المواعيد
+  $("apptList").innerHTML = S.appts.length? S.appts.map(a=>'<div class="item'+(a.date<t?" past":"")+'"><div class="row between"><b>'+esc(a.title)+'</b><button class="btn2 btn-sm" onclick="delAppt(\''+a.id+'\')">مسح</button></div><div class="muted">'+fmtD(parseD(a.date))+' • '+fmtT(a.time)+(a.note?" • "+esc(a.note):"")+'</div>'+(a.date>=t?'<a class="btn btn-sm btn2" target="_blank" style="margin-top:4px" href="'+gcalOnce(a.title,a.date,a.time,a.note)+'">أضيفي للتقويم</a>':'')+'</div>').join("")
+    : '<p class="muted">مفيش مواعيد متسجلة.</p>';
+  $("planList").innerHTML = p? plan(p).map(x=>{ const past=x.date<today0(); return '<div class="item'+(past?" past":"")+'"><div class="row between"><span><span class="tag">أسبوع '+x.w+'</span> '+x.t+'</span></div><div class="row between"><span class="muted">حوالي '+fmtD(x.date)+'</span>'+(past?'':'<span><button class="btn-sm btn2" onclick="openAppt(\''+x.t.split(" +")[0]+'\',\''+ymd(x.date)+'\')">سجّلي</button> <button class="btn-sm btn-ok" onclick="go(\'clinic\');$(\'bkDate\').value=\''+ymd(x.date)+'\'">احجزي</button></span>')+'</div></div>'; }).join("")
+    : '<p class="muted">اكتبي بيانات الحمل في الرئيسية الأول.</p>';
+  // بياناتي
+  $("myData").innerHTML = p? "الاسم: "+esc(S.profile.name||"—")+"<br>موعد الولادة المتوقع: "+p.edd.toLocaleDateString("ar-EG")+"<br>الفصيلة: "+(S.profile.rh==="neg"?"سالب":S.profile.rh==="pos"?"موجب":"غير محددة") : "لسه ما سجلتيش بيانات الحمل.";
+  // تنبيه الضغط في الرئيسية (لو آخر قياس في آخر 3 أيام عالي)
+  const lb=lastBp(); const recent=lb && (today0()-parseD(lb.date))/DAY<=3;
+  $("homeBp").innerHTML = recent && bpLevel(lb)? bpAlertHtml(lb) : "";
+  renderKick(); renderCt(); renderBag(); renderVitals();
+  if(document.activeElement!==$("drQs")) $("drQs").value=S.questions||"";
+}
+render();
+setInterval(()=>{ if(K) renderKick(); },30000);
+</script>
+</body>
+</html>
