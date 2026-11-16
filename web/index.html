@@ -363,13 +363,12 @@ details.qa{background:#F5F9FF}
     <p class="muted" id="clHours"></p>
     <div class="row">
       <a class="btn" id="clCall">📞 اتصال</a>
-      <a class="btn btn-ok" id="clWa" target="_blank">💬 واتساب</a>
       <a class="btn btn2" id="clMap" target="_blank">📍 اللوكيشن</a>
     </div>
   </div>
   <div class="card">
     <h2>📄 تقرير للدكتور</h2>
-    <p class="muted" style="margin-top:0">ملف PDF فيه بيانات الحمل وأدويتك والتزامك بيها وقياساتك وحركة البيبي ومواعيدك — تبعتيه للعيادة على واتساب.</p>
+    <p class="muted" style="margin-top:0">ملف PDF فيه بيانات الحمل وأدويتك والتزامك بيها وقياساتك وحركة البيبي ومواعيدك — تورّيه للدكتور في الكشف.</p>
     <label>❓ أسئلة للدكتور</label>
     <textarea id="drQs" rows="4" placeholder="اكتبي أي حاجة عايزة تسألي د. مجدي عنها…"></textarea>
     <br><br>
@@ -537,7 +536,6 @@ function applyClinicUI(){
   $("clCall").href = "tel:" + CLINIC.phone;
   $("emCall").href = "tel:" + (CLINIC.emergency||CLINIC.phone);
   $("bkInfo").textContent = CLINIC.booking || "";
-  $("clWa").href = "https://wa.me/" + CLINIC.whatsapp;
   if(CLINIC.map){ $("clMap").href = CLINIC.map; $("clMap").style.display=""; } else $("clMap").style.display="none";
   $("dangerList").innerHTML = DANGER_SIGNS.map(x=>"<li>"+esc(x)+"</li>").join("");
   $("quickMeds").innerHTML = QUICK.map(x=>'<span class="chip" data-q="'+esc(x)+'">'+esc(x)+'</span>').join("");
@@ -1019,17 +1017,16 @@ async function makeReport(){
     const file=new File([blob],fname,{type:"application/pdf"});
     if(navigator.canShare && navigator.canShare({files:[file]})){
       try{ await navigator.share({files:[file], title:"تقرير متابعة الحمل", text:"تقرير متابعة الحمل — "+(S.profile.name||"")}); }
-      catch(e){ if(e.name!=="AbortError") downloadAndWa(file); }
-    } else downloadAndWa(file);
+      catch(e){ if(e.name!=="AbortError") downloadReport(file); }
+    } else downloadReport(file);
   }catch(e){
     console.error(e); toast("حصلت مشكلة في عمل التقرير، جربي تاني");
   }finally{ _busy=false; btn.textContent=old; btn.disabled=false; $("report").innerHTML=""; }
 }
-function downloadAndWa(file){
+function downloadReport(file){
   const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=file.name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),60000);
-  toast("التقرير اتنزل ✓ — ابعتيه للعيادة على واتساب كمرفق 📎");
-  setTimeout(()=>openExt("https://wa.me/"+CLINIC.whatsapp+"?text="+encodeURIComponent("السلام عليكم، ده تقرير متابعة الحمل بتاعي ("+(S.profile.name||"")+") — هبعته كملف PDF.")),1200);
+  toast("التقرير اتنزل ✓ — ورّيه للدكتور في الكشف 📎");
 }
 
 /* =========================================================
@@ -1105,14 +1102,12 @@ function answerHtml(f){
     +(f.r?'':'<span class="draft">مسودة — تحتاج مراجعة د. مجدي</span>')
     +'<div class="muted" style="font-size:13px;margin-top:4px">معلومة عامة — لو حالتك مختلفة اسألي الدكتور.</div>';
 }
-function waLink(text){ return "https://wa.me/"+CLINIC.whatsapp+"?text="+encodeURIComponent(text); }
 function emergencyHtml(){
   return '<b>⚠️ اللي بتوصفيه ممكن يكون علامة خطر.</b><p>ما تستنيش — اتصلي بالعيادة دلوقتي، أو روحي أقرب طوارئ نسا وتوليد فورًا.</p>'
     +'<div class="row"><a class="btn btn-warn btn-sm" href="tel:'+esc(CLINIC.emergency||CLINIC.phone)+'">📞 اتصال طوارئ</a></div>';
 }
 function notFoundHtml(q,sugs){
-  return '<b>السؤال ده محتاج د. مجدي 🙏</b><p>ما لقيتش إجابة جاهزة لسؤالك. ابعتيه للعيادة على واتساب.</p>'
-    +'<a class="btn btn-ok btn-sm" target="_blank" href="'+waLink("السلام عليكم، عندي سؤال لـ "+CLINIC.doctor+":\n"+q)+'">💬 ابعتي السؤال على واتساب</a>'
+  return '<b>السؤال ده محتاج د. مجدي 🙏</b><p>ما لقيتش إجابة جاهزة لسؤالك. اكتبيه في «أسئلة للدكتور» في تبويب العيادة واسأليه في الكشف.</p>'
     +(sugs&&sugs.length? '<p class="muted" style="margin-top:8px">أو يمكن تقصدي:</p>'+sugs.map(x=>'<button class="chip" onclick="showFaq(\''+x.f.id+'\')">'+esc(x.f.q)+'</button>').join("") : "");
 }
 function showFaq(id){ const f=FAQS.find(x=>x.id===id); if(!f) return; meSay(f.q); botSay(answerHtml(f)); }
