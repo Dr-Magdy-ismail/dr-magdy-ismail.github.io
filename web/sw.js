@@ -1,4 +1,4 @@
-const CACHE = "drmagdy-v5";
+const CACHE = "drmagdy-v6";
 const FILES = ["./", "./index.html", "./faq.js", "./manifest.json", "./icon-192.png", "./icon-512.png", "./logo.png", "./apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
