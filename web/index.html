@@ -231,7 +231,7 @@ details.qa{background:#F5F9FF}
       <b>🚨 كلّمي العيادة أو روحي الطوارئ فورًا لو حصل:</b>
       <ul id="dangerList" style="margin:6px 0 0;padding-inline-start:20px"></ul>
       <div class="row" style="margin-top:10px">
-        <a class="btn btn-warn" id="emCall">📞 اتصال بالعيادة</a>
+        <a class="btn btn-warn" id="emCall">📞 اتصال طوارئ</a>
       </div>
     </div>
   </div>
@@ -265,7 +265,7 @@ details.qa{background:#F5F9FF}
   </div>
   <div class="card">
     <h2>🗓️ جدول المتابعة المقترح</h2>
-    <p class="muted">جدول عام محسوب من عمر الحمل. المواعيد الفعلية بيحددها د. مجدي — دوسي «احجزي» علشان تكلمي العيادة.</p>
+    <p class="muted">جدول عام محسوب من عمر الحمل. المواعيد الفعلية بيحددها د. مجدي — والحجز بالحضور للعيادة بأسبقية الحضور.</p>
     <div id="planList"></div>
   </div>
 </section>
@@ -376,15 +376,9 @@ details.qa{background:#F5F9FF}
     <button class="full" id="repBtn" onclick="makeReport()">📄 تقرير للدكتور</button>
   </div>
   <div class="card">
-    <h2>📝 طلب حجز</h2>
-    <p class="muted">هتتبعت رسالة واتساب للعيادة فيها بياناتك وعمر الحمل.</p>
-    <label>سبب الزيارة</label>
-    <select id="bkReason"></select>
-    <label>اليوم المناسب</label>
-    <input type="date" id="bkDate">
-    <label>ملاحظة (اختياري)</label>
-    <textarea id="bkNote" rows="2"></textarea><br><br>
-    <button class="btn-ok full" onclick="sendBooking()">إرسال طلب الحجز على واتساب</button>
+    <h2>📝 الحجز</h2>
+    <p id="bkInfo" style="font-weight:700;margin:0 0 6px"></p>
+    <p class="muted" style="margin-top:0">مواعيد العيادة والحجز مكتوبة فوق في كارت «العيادة».</p>
   </div>
   <div class="card">
     <h2>⚙️ بياناتي</h2>
@@ -464,8 +458,10 @@ const CLINIC = {
   title:    "استشاري أمراض النسا والتوليد والعقم وجراحة المناظير",
   phone:    "01095649036",        // تليفون العيادة (للاتصال)
   whatsapp: "201222332307",       // رقم الواتساب بصيغة دولية بدون +
+  emergency: "01222332307",       // رقم اتصال الطوارئ (زرار «اتصال طوارئ»)
+  booking:  "الحجز بالحضور للعيادة بأسبقية الحضور",
   address:  "شارع الجيش، بجوار الرخاوي، أعلى مركز الإسراء، الدور الرابع — عيادة المرحوم الدكتور أحمد الصديق سابقًا (داخل معمل كيور لاب)",
-  hours:    "السبت والإثنين والثلاثاء والأربعاء: العيادة تبدأ 4:30 مساءً — الحجز من 12 ظهرًا\nالأحد والخميس: العيادة تبدأ 1 ظهرًا — الحجز من 11 صباحًا\nبرجاء التنسيق مع السكرتارية للحجز",
+  hours:    "السبت والإثنين والثلاثاء والأربعاء: العيادة تبدأ 4:30 مساءً — الحجز من 12 ظهرًا\nالأحد والخميس: العيادة تبدأ 1 ظهرًا — الحجز من 11 صباحًا\nالحجز بالحضور للعيادة بأسبقية الحضور",
   map:      "",                   // لينك اللوكيشن من Google Maps (فاضي = الزرار مش بيظهر)
 
   // خدمة قراءة الروشتة وبوت الأسئلة (Cloudflare Worker — نفس خدمة دوايا)
@@ -538,16 +534,17 @@ function applyClinicUI(){
   $("clAddr").textContent = CLINIC.address ? "📍 " + CLINIC.address : "";
   $("clAddr").style.display = CLINIC.address ? "" : "none";
   $("clHours").textContent = CLINIC.hours;
-  $("clCall").href = $("emCall").href = "tel:" + CLINIC.phone;
+  $("clCall").href = "tel:" + CLINIC.phone;
+  $("emCall").href = "tel:" + (CLINIC.emergency||CLINIC.phone);
+  $("bkInfo").textContent = CLINIC.booking || "";
   $("clWa").href = "https://wa.me/" + CLINIC.whatsapp;
   if(CLINIC.map){ $("clMap").href = CLINIC.map; $("clMap").style.display=""; } else $("clMap").style.display="none";
   $("dangerList").innerHTML = DANGER_SIGNS.map(x=>"<li>"+esc(x)+"</li>").join("");
   $("quickMeds").innerHTML = QUICK.map(x=>'<span class="chip" data-q="'+esc(x)+'">'+esc(x)+'</span>').join("");
-  const r=$("bkReason").value; $("bkReason").innerHTML = REASONS.map(x=>"<option>"+esc(x)+"</option>").join(""); if(REASONS.includes(r)) $("bkReason").value=r;
-  $("apptTypes").innerHTML = APPT_TYPES.map(x=>"<option>"+esc(x)+"</option>").join("");
+    $("apptTypes").innerHTML = APPT_TYPES.map(x=>"<option>"+esc(x)+"</option>").join("");
 }
 $("planList").onclick = e => { const b=e.target.closest("button[data-act]"); if(!b) return;
-  if(b.dataset.act==="reg") openAppt(b.dataset.t, b.dataset.d); else { go("clinic"); $("bkDate").value=b.dataset.d; } };
+  if(b.dataset.act==="reg") openAppt(b.dataset.t, b.dataset.d); else go("clinic"); };
 $("quickMeds").onclick = e => { const c=e.target.closest(".chip"); if(c) qm(c.dataset.q); };
 
 /* ---------- التنقل ---------- */
@@ -680,7 +677,7 @@ function renderCt(){
       for(let i=1;i<r.length;i++) gaps.push((r[i].s-r[i-1].s)/60000);
       const ag=gaps.reduce((a,b)=>a+b)/gaps.length, ad=durs.reduce((a,b)=>a+b)/durs.length;
       $("ctSummary").textContent="متوسط الفاصل "+ag.toFixed(1)+" دقيقة، ومتوسط المدة "+Math.round(ad)+" ثانية";
-      if(ag<=5 && ad>=45) alert='<div class="alert" style="margin-top:8px"><b>الانقباضات منتظمة وقريبة.</b> كلّمي العيادة أو اتحركي على المستشفى.<br><a class="btn btn-warn btn-sm" href="tel:'+CLINIC.phone+'" style="margin-top:6px">📞 اتصال</a></div>';
+      if(ag<=5 && ad>=45) alert='<div class="alert" style="margin-top:8px"><b>الانقباضات منتظمة وقريبة.</b> كلّمي العيادة أو اتحركي على المستشفى.<br><a class="btn btn-warn btn-sm" href="tel:'+(CLINIC.emergency||CLINIC.phone)+'" style="margin-top:6px">📞 اتصال طوارئ</a></div>';
     } else $("ctSummary").textContent="سجّلي 4 انقباضات على الأقل علشان نحسب المتوسط";
   } else $("ctSummary").textContent="";
   $("ctHist").innerHTML=html; $("ctAlert").innerHTML=alert;
@@ -692,15 +689,7 @@ let BAG=["البطاقة وكارنيه/ملف المتابعة","التحالي
 function renderBag(){ $("bagList").innerHTML=BAG.map((b,i)=>'<div class="dose'+(S.bag[b]?" done":"")+'"><span class="t">'+esc(b)+'</span><button class="tick" data-i="'+i+'">✓</button></div>').join(""); }
 $("bagList").onclick = e => { const t=e.target.closest(".tick"); if(!t) return; const b=BAG[+t.dataset.i]; if(b===undefined) return; S.bag[b]=!S.bag[b]; save(); renderBag(); };
 
-/* ---------- الحجز ---------- */
-function sendBooking(){
-  const p=preg(); const n=S.profile?.name||"";
-  let msg="السلام عليكم، أنا "+n+" وعايزة أحجز عند "+CLINIC.doctor+".\nسبب الزيارة: "+$("bkReason").value;
-  if(p && p.left>-60) msg+="\nعمر الحمل: "+p.w+" أسبوع و"+p.d+" يوم";
-  if($("bkDate").value) msg+="\nاليوم المناسب: "+fmtD(parseD($("bkDate").value));
-  if($("bkNote").value.trim()) msg+="\nملاحظة: "+$("bkNote").value.trim();
-  openExt("https://wa.me/"+CLINIC.whatsapp+"?text="+encodeURIComponent(msg));
-}
+/* ---------- الحجز: بالحضور للعيادة بأسبقية الحضور (مفيش حجز واتساب) ---------- */
 
 /* ---------- نسخة احتياطية ---------- */
 function exportData(){ const b=new Blob([JSON.stringify(S)],{type:"application/json"});
@@ -876,7 +865,7 @@ function bpAlertHtml(v){
                      : "⚠️ الضغط "+v.sys+"/"+v.dia+" أعلى من الطبيعي (140/90 أو أكتر). ارتاحي ربع ساعة وقيسيه تاني، وكلّمي العيادة النهارده.";
   return '<div class="alert'+(lv===2?" urgent":"")+'" style="margin-bottom:14px"><b>'+head+'</b>'
     +'<div style="font-size:15px;margin-top:4px">لو معاه صداع شديد أو زغللة أو ألم أعلى البطن أو تورم مفاجئ في الوش والإيدين — روحي الطوارئ على طول.</div>'
-    +'<a class="btn btn-sm '+(lv===2?"btn2":"btn-warn")+'" href="tel:'+esc(CLINIC.phone)+'" style="margin-top:8px">📞 اتصال بالعيادة</a></div>';
+    +'<a class="btn btn-sm '+(lv===2?"btn2":"btn-warn")+'" href="tel:'+esc(CLINIC.emergency||CLINIC.phone)+'" style="margin-top:8px">📞 اتصال طوارئ</a></div>';
 }
 function saveVital(){
   const num=id=>{ const x=parseFloat($(id).value); return Number.isFinite(x)?x:null; };
@@ -1049,7 +1038,7 @@ function downloadAndWa(file){
    ========================================================= */
 let FAQS=window.FAQ||[], CATS=window.FAQ_CATS||[];
 function fill(a){
-  return String(a).replace(/\{(doctor|phone|whatsapp|address|hours|title)\}/g,(_,k)=>!CLINIC[k]?"":k==="address"?"📍 "+CLINIC.address:CLINIC[k])
+  return String(a).replace(/\{(doctor|phone|whatsapp|address|hours|title|emergency|booking)\}/g,(_,k)=>!CLINIC[k]?"":k==="address"?"📍 "+CLINIC.address:CLINIC[k])
     .split("\n").map(x=>x.trim()).filter(Boolean).join("\n");
 }
 function norm(s){
@@ -1119,7 +1108,7 @@ function answerHtml(f){
 function waLink(text){ return "https://wa.me/"+CLINIC.whatsapp+"?text="+encodeURIComponent(text); }
 function emergencyHtml(){
   return '<b>⚠️ اللي بتوصفيه ممكن يكون علامة خطر.</b><p>ما تستنيش — اتصلي بالعيادة دلوقتي، أو روحي أقرب طوارئ نسا وتوليد فورًا.</p>'
-    +'<div class="row"><a class="btn btn-warn btn-sm" href="tel:'+esc(CLINIC.phone)+'">📞 اتصال بالعيادة</a></div>';
+    +'<div class="row"><a class="btn btn-warn btn-sm" href="tel:'+esc(CLINIC.emergency||CLINIC.phone)+'">📞 اتصال طوارئ</a></div>';
 }
 function notFoundHtml(q,sugs){
   return '<b>السؤال ده محتاج د. مجدي 🙏</b><p>ما لقيتش إجابة جاهزة لسؤالك. ابعتيه للعيادة على واتساب.</p>'
@@ -1224,7 +1213,7 @@ function render(){
   // المواعيد
   $("apptList").innerHTML = S.appts.length? S.appts.map(a=>'<div class="item'+(a.date<t?" past":"")+'"><div class="row between"><b>'+esc(a.title)+'</b><button class="btn2 btn-sm" onclick="delAppt(\''+a.id+'\')">مسح</button></div><div class="muted">'+fmtD(parseD(a.date))+' • '+fmtT(a.time)+(a.note?" • "+esc(a.note):"")+'</div>'+(a.date>=t?'<a class="btn btn-sm btn2" target="_blank" style="margin-top:4px" href="'+gcalOnce(a.title,a.date,a.time,a.note)+'">أضيفي للتقويم</a>':'')+'</div>').join("")
     : '<p class="muted">مفيش مواعيد متسجلة.</p>';
-  $("planList").innerHTML = p? plan(p).map(x=>{ const past=x.date<today0(); return '<div class="item'+(past?" past":"")+'"><div class="row between"><span><span class="tag">أسبوع '+x.w+'</span> '+esc(x.t)+'</span></div><div class="row between"><span class="muted">حوالي '+fmtD(x.date)+'</span>'+(past?'':'<span><button class="btn-sm btn2" data-act="reg" data-t="'+esc(x.t.split(" +")[0])+'" data-d="'+ymd(x.date)+'">سجّلي</button> <button class="btn-sm btn-ok" data-act="book" data-d="'+ymd(x.date)+'">احجزي</button></span>')+'</div></div>'; }).join("")
+  $("planList").innerHTML = p? plan(p).map(x=>{ const past=x.date<today0(); return '<div class="item'+(past?" past":"")+'"><div class="row between"><span><span class="tag">أسبوع '+x.w+'</span> '+esc(x.t)+'</span></div><div class="row between"><span class="muted">حوالي '+fmtD(x.date)+'</span>'+(past?'':'<span><button class="btn-sm btn2" data-act="reg" data-t="'+esc(x.t.split(" +")[0])+'" data-d="'+ymd(x.date)+'">سجّلي</button></span>')+'</div></div>'; }).join("")
     : '<p class="muted">اكتبي بيانات الحمل في الرئيسية الأول.</p>';
   // بياناتي
   $("myData").innerHTML = p? "الاسم: "+esc(S.profile.name||"—")+"<br>موعد الولادة المتوقع: "+p.edd.toLocaleDateString("ar-EG")+"<br>الفصيلة: "+(S.profile.rh==="neg"?"سالب":S.profile.rh==="pos"?"موجب":"غير محددة") : "لسه ما سجلتيش بيانات الحمل.";
@@ -1275,8 +1264,10 @@ const PARSE = {
     if(v.doctor) o.doctor=cut(v.doctor,80);
     if(v.title) o.title=cut(v.title,160);
     if(v.address!==undefined) o.address=cut(v.address,300);
-    if(v.hours!==undefined) o.hours=cut(v.hours,600);
+    if(v.hours!==undefined) o.hours=cut(v.hours,600).replace(/[^\n]*التنسيق مع السكرتارية[^\n]*/g,"الحجز بالحضور للعيادة بأسبقية الحضور");
     let ph=digits(v.phone); if(ph.startsWith("20")&&ph.length===12) ph="0"+ph.slice(2); if(ph.length>=7&&ph.length<=15) o.phone=ph;
+    if(v.emergency!==undefined){ let em=digits(v.emergency); if(em.startsWith("20")&&em.length===12) em="0"+em.slice(2); if(/^1\d{9}$/.test(em)) em="0"+em; o.emergency=(em.length>=7&&em.length<=15)?em:""; }
+    if(v.booking!==undefined) o.booking=cut(v.booking,300);
     let wa=digits(v.whatsapp); if(wa.startsWith("0")) wa="20"+wa.slice(1); if(wa.length>=10&&wa.length<=15) o.whatsapp=wa;
     if(v.map!==undefined) o.map=/^https:\/\//.test(v.map)?cut(v.map,400):"";
     return Object.keys(o).length? o : null;
