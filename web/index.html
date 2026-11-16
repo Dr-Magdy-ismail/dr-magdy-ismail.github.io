@@ -231,7 +231,7 @@ details.qa{background:#F5F9FF}
       <b>🚨 كلّمي العيادة أو روحي الطوارئ فورًا لو حصل:</b>
       <ul id="dangerList" style="margin:6px 0 0;padding-inline-start:20px"></ul>
       <div class="row" style="margin-top:10px">
-        <a class="btn btn-warn" id="emCall">📞 اتصال طوارئ</a>
+        <a class="btn btn-warn" id="emCall">📞 اتصال للطوارئ</a>
       </div>
     </div>
   </div>
@@ -362,7 +362,7 @@ details.qa{background:#F5F9FF}
     <p id="clAddr"></p>
     <p class="muted" id="clHours"></p>
     <div class="row">
-      <a class="btn" id="clCall">📞 اتصال</a>
+      <a class="btn btn-warn" id="clCall">📞 اتصال للطوارئ</a>
       <a class="btn btn2" id="clMap" target="_blank">📍 اللوكيشن</a>
     </div>
   </div>
@@ -457,7 +457,7 @@ const CLINIC = {
   title:    "استشاري أمراض النسا والتوليد والعقم وجراحة المناظير",
   phone:    "01095649036",        // تليفون العيادة (للاتصال)
   whatsapp: "201222332307",       // رقم الواتساب بصيغة دولية بدون +
-  emergency: "01222332307",       // رقم اتصال الطوارئ (زرار «اتصال طوارئ»)
+  emergency: "01222332307",       // رقم اتصال الطوارئ (زرار «اتصال للطوارئ»)
   booking:  "الحجز بالحضور للعيادة بأسبقية الحضور",
   address:  "شارع الجيش، بجوار الرخاوي، أعلى مركز الإسراء، الدور الرابع — عيادة المرحوم الدكتور أحمد الصديق سابقًا (داخل معمل كيور لاب)",
   hours:    "السبت والإثنين والثلاثاء والأربعاء: العيادة تبدأ 4:30 مساءً — الحجز من 12 ظهرًا\nالأحد والخميس: العيادة تبدأ 1 ظهرًا — الحجز من 11 صباحًا\nالحجز بالحضور للعيادة بأسبقية الحضور",
@@ -533,7 +533,7 @@ function applyClinicUI(){
   $("clAddr").textContent = CLINIC.address ? "📍 " + CLINIC.address : "";
   $("clAddr").style.display = CLINIC.address ? "" : "none";
   $("clHours").textContent = CLINIC.hours;
-  $("clCall").href = "tel:" + CLINIC.phone;
+  $("clCall").href = "tel:" + (CLINIC.emergency||CLINIC.phone);
   $("emCall").href = "tel:" + (CLINIC.emergency||CLINIC.phone);
   $("bkInfo").textContent = CLINIC.booking || "";
   if(CLINIC.map){ $("clMap").href = CLINIC.map; $("clMap").style.display=""; } else $("clMap").style.display="none";
@@ -675,7 +675,7 @@ function renderCt(){
       for(let i=1;i<r.length;i++) gaps.push((r[i].s-r[i-1].s)/60000);
       const ag=gaps.reduce((a,b)=>a+b)/gaps.length, ad=durs.reduce((a,b)=>a+b)/durs.length;
       $("ctSummary").textContent="متوسط الفاصل "+ag.toFixed(1)+" دقيقة، ومتوسط المدة "+Math.round(ad)+" ثانية";
-      if(ag<=5 && ad>=45) alert='<div class="alert" style="margin-top:8px"><b>الانقباضات منتظمة وقريبة.</b> كلّمي العيادة أو اتحركي على المستشفى.<br><a class="btn btn-warn btn-sm" href="tel:'+(CLINIC.emergency||CLINIC.phone)+'" style="margin-top:6px">📞 اتصال طوارئ</a></div>';
+      if(ag<=5 && ad>=45) alert='<div class="alert" style="margin-top:8px"><b>الانقباضات منتظمة وقريبة.</b> كلّمي العيادة أو اتحركي على المستشفى.<br><a class="btn btn-warn btn-sm" href="tel:'+(CLINIC.emergency||CLINIC.phone)+'" style="margin-top:6px">📞 اتصال للطوارئ</a></div>';
     } else $("ctSummary").textContent="سجّلي 4 انقباضات على الأقل علشان نحسب المتوسط";
   } else $("ctSummary").textContent="";
   $("ctHist").innerHTML=html; $("ctAlert").innerHTML=alert;
@@ -863,7 +863,7 @@ function bpAlertHtml(v){
                      : "⚠️ الضغط "+v.sys+"/"+v.dia+" أعلى من الطبيعي (140/90 أو أكتر). ارتاحي ربع ساعة وقيسيه تاني، وكلّمي العيادة النهارده.";
   return '<div class="alert'+(lv===2?" urgent":"")+'" style="margin-bottom:14px"><b>'+head+'</b>'
     +'<div style="font-size:15px;margin-top:4px">لو معاه صداع شديد أو زغللة أو ألم أعلى البطن أو تورم مفاجئ في الوش والإيدين — روحي الطوارئ على طول.</div>'
-    +'<a class="btn btn-sm '+(lv===2?"btn2":"btn-warn")+'" href="tel:'+esc(CLINIC.emergency||CLINIC.phone)+'" style="margin-top:8px">📞 اتصال طوارئ</a></div>';
+    +'<a class="btn btn-sm '+(lv===2?"btn2":"btn-warn")+'" href="tel:'+esc(CLINIC.emergency||CLINIC.phone)+'" style="margin-top:8px">📞 اتصال للطوارئ</a></div>';
 }
 function saveVital(){
   const num=id=>{ const x=parseFloat($(id).value); return Number.isFinite(x)?x:null; };
@@ -1104,7 +1104,7 @@ function answerHtml(f){
 }
 function emergencyHtml(){
   return '<b>⚠️ اللي بتوصفيه ممكن يكون علامة خطر.</b><p>ما تستنيش — اتصلي بالعيادة دلوقتي، أو روحي أقرب طوارئ نسا وتوليد فورًا.</p>'
-    +'<div class="row"><a class="btn btn-warn btn-sm" href="tel:'+esc(CLINIC.emergency||CLINIC.phone)+'">📞 اتصال طوارئ</a></div>';
+    +'<div class="row"><a class="btn btn-warn btn-sm" href="tel:'+esc(CLINIC.emergency||CLINIC.phone)+'">📞 اتصال للطوارئ</a></div>';
 }
 function notFoundHtml(q,sugs){
   return '<b>السؤال ده محتاج د. مجدي 🙏</b><p>ما لقيتش إجابة جاهزة لسؤالك. اكتبيه في «أسئلة للدكتور» في تبويب العيادة واسأليه في الكشف.</p>'
